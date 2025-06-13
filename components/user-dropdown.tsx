@@ -42,15 +42,15 @@ export function UserDropdown({ firstName, role, profilePicture }: UserDropdownPr
                 </p>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => router.push("/protected/profile")} className="hover:bg-secondary">
+                <DropdownMenuItem onClick={() => router.push("/profile")} className="hover:bg-secondary">
                     Profile
                 </DropdownMenuItem>
                 {role === "admin" && (
-                    <DropdownMenuItem onClick={() => router.push("/admin")} className="bg-background hover:bg-blue-500">
+                    <DropdownMenuItem onClick={() => router.push("/admin")} className=" hover:bg-blue-500">
                         Admin
                     </DropdownMenuItem>
                 )}
-                <DropdownMenuItem onClick={handleLogout} className="bg-background hover:bg-red-500">
+                <DropdownMenuItem onClick={handleLogout} className=" hover:bg-red-500">
                     Logout
                 </DropdownMenuItem>
             </DropdownMenuContent>
