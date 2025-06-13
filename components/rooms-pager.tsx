@@ -7,20 +7,10 @@ const ROOMS_PER_PAGE = 9;
 
 interface RoomsPagerProps {
     page: number;
-    availability?: string;
-    type?: string;
-    minPrice?: number;
-    maxPrice?: number;
 }
 
 async function getRooms(
-    page: number,
-    filters: {
-        availability?: string;
-        type?: string;
-        minPrice?: number;
-        maxPrice?: number;
-    } = {}
+    page: number
 ): Promise<{
     rooms: Room[];
     totalCount: number;
@@ -32,31 +22,11 @@ async function getRooms(
     const from = (page - 1) * ROOMS_PER_PAGE;
     const to = from + ROOMS_PER_PAGE - 1;
 
-    let query = supabase
+    const { data: rooms, error, count } = await supabase
         .from("rooms")
-        .select("*", { count: "exact" });
-
-    // Apply filters
-    if (filters.availability === "available") {
-        query = query.eq("is_available", true);
-    } else if (filters.availability === "rented") {
-        query = query.eq("is_available", false);
-    }
-
-    if (filters.type) {
-        query = query.eq("type", filters.type);
-    }
-
-    if (filters.minPrice !== undefined) {
-        query = query.gte("price", filters.minPrice);
-    }
-
-    if (filters.maxPrice !== undefined) {
-        query = query.lte("price", filters.maxPrice);
-    }
-
-    const { data: rooms, error, count } = await query
-        .order("created_at", { ascending: false })
+        .select("*", { count: "exact" })
+        .order("house_number", { ascending: true })
+        .order("number", { ascending: true })
         .range(from, to);
 
     if (error) {
@@ -76,19 +46,8 @@ async function getRooms(
     };
 }
 
-export async function RoomsPager({
-    page,
-    availability,
-    type,
-    minPrice,
-    maxPrice
-}: RoomsPagerProps) {
-    const { rooms, totalCount, hasNextPage, hasPrevPage } = await getRooms(page, {
-        availability,
-        type,
-        minPrice,
-        maxPrice,
-    });
+export async function RoomsPager({ page }: RoomsPagerProps) {
+    const { rooms, totalCount, hasNextPage, hasPrevPage } = await getRooms(page);
 
     const totalPages = Math.ceil(totalCount / ROOMS_PER_PAGE);
 
@@ -98,7 +57,7 @@ export async function RoomsPager({
                 <div className="text-center space-y-4">
                     <h3 className="text-lg font-semibold">No rooms found</h3>
                     <p className="text-muted-foreground">
-                        Try adjusting your filters or check back later for new listings.
+                        Check back later for new listings.
                     </p>
                 </div>
             </div>

@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import { RoomsPager } from "@/components/rooms-pager";
-import { RoomsFilter } from "@/components/rooms-filter";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default async function RoomsPage({
@@ -8,18 +7,10 @@ export default async function RoomsPage({
 }: {
     searchParams: Promise<{
         page?: string;
-        availability?: string;
-        type?: string;
-        minPrice?: string;
-        maxPrice?: string;
     }>;
 }) {
     const resolvedSearchParams = await searchParams;
     const page = parseInt(resolvedSearchParams.page || "1", 10);
-    const availability = resolvedSearchParams.availability;
-    const type = resolvedSearchParams.type;
-    const minPrice = resolvedSearchParams.minPrice ? parseInt(resolvedSearchParams.minPrice, 10) : undefined;
-    const maxPrice = resolvedSearchParams.maxPrice ? parseInt(resolvedSearchParams.maxPrice, 10) : undefined;
 
     return (
         <div className="w-full">
@@ -31,10 +22,8 @@ export default async function RoomsPage({
                     </p>
                 </div>
 
-                <RoomsFilter />
-
                 <Suspense
-                    key={`${page}-${availability}-${type}-${minPrice}-${maxPrice}`}
+                    key={page}
                     fallback={
                         <div className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -54,13 +43,7 @@ export default async function RoomsPage({
                         </div>
                     }
                 >
-                    <RoomsPager
-                        page={page}
-                        availability={availability}
-                        type={type}
-                        minPrice={minPrice}
-                        maxPrice={maxPrice}
-                    />
+                    <RoomsPager page={page} />
                 </Suspense>
             </div>
         </div>

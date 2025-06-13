@@ -11,30 +11,39 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, Bed, Euro } from "lucide-react";
+import { Users, Bed, Euro, BedIcon } from "lucide-react";
 
 interface RoomCardProps {
     room: Room;
 }
 
 export function RoomCard({ room }: RoomCardProps) {
-    const mainImage = room.images?.[0] || "/assets/logo.png";
+    const mainImage = room.images?.[0];
 
     return (
         <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200">
             <div className="relative aspect-video">
-                <Image
-                    src={mainImage}
-                    alt={`Room ${room.number} in House ${room.house_number}`}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
+                {mainImage ? (
+                    <Image
+                        src={mainImage}
+                        alt={`Room ${room.number} in House ${room.house_number}`}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                ) : (
+                <div className="w-full h-full bg-muted flex items-center justify-center">
+                    <div className="text-center text-muted-foreground">
+                        <BedIcon className="w-16 h-16 mx-auto mb-3 opacity-50" />
+                        <p className="text-base font-medium">Sem imagens disponíveis</p>
+                    </div>
+                </div>
+        )}
                 <div className="absolute top-2 right-2 flex gap-1">
                     <Badge
                         className={`${room.is_available
-                                ? "bg-green-500/80 text-white"
-                                : "bg-red-500/80 text-white"
+                            ? "bg-green-500/80 text-white"
+                            : "bg-red-500/80 text-white"
                             } border-none`}
                     >
                         {room.is_available ? "Available" : "Rented"}
@@ -47,7 +56,7 @@ export function RoomCard({ room }: RoomCardProps) {
 
             <CardHeader className="pb-3">
                 <CardTitle className="text-lg">
-                   House {room.house_number} - Room {room.number}
+                    House {room.house_number} - Room {room.number}
                 </CardTitle>
                 <CardDescription className="flex items-center justify-between text-sm">
                     <div className="flex items-center">

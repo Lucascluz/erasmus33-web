@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -18,12 +17,8 @@ export function RoomsPaginationControls({
     hasNextPage,
     hasPrevPage,
 }: RoomsPaginationControlsProps) {
-    const searchParams = useSearchParams();
-
     const createPageUrl = (pageNumber: number) => {
-        const params = new URLSearchParams(searchParams);
-        params.set("page", pageNumber.toString());
-        return `?${params.toString()}`;
+        return `?page=${pageNumber}`;
     };
 
     // Generate page numbers to show
