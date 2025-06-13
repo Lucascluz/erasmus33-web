@@ -3,7 +3,6 @@
 import { createClient } from "@/lib/supabase/client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Avatar } from "@/components/ui/avatar";
 import {
     Home,
     ArrowLeft,
@@ -92,29 +91,6 @@ export default function HousesManagementPage() {
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
                             </div>
-                            {/* <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        className="flex items-center gap-2 border-primary text-primary hover:bg-primary hover:text-white"
-                                    >
-                                        <Filter className="h-4 w-4" />
-                                        {filterOption ? `Filter: ${filterOption}` : "Filter"}
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="start">
-                                    <DropdownMenuItem onClick={() => setFilterOption(null)}>
-                                        All Houses
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => setFilterOption("active")}>
-                                        Active Houses
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => setFilterOption("inactive")}>
-                                        Inactive Houses
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu> */}
                             <Link href="/admin/houses/new">
                                 <Button variant="default" size="lg" className="flex items-center gap-2 bg-blue-500 text-white hover:bg-blue-600">
                                     <Plus className="h-10 w-10" />
@@ -131,11 +107,9 @@ export default function HousesManagementPage() {
                             <CardContent className="p-6">
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-4">
-                                        <Avatar className="h-12 w-12 bg-primary text-primary-foreground flex items-center justify-center">
-                                            <span className="text-lg font-semibold">
-                                                {house.number}
-                                            </span>
-                                        </Avatar>
+                                        <span className="text-2xl font-semibold">
+                                            {house.number}
+                                        </span>
 
                                         <div className="flex-1">
                                             <div className="flex items-center gap-2 mb-1">

@@ -26,7 +26,6 @@ export default function NewRoomPage() {
         description: "",
         type: "",
         beds: "",
-        renters: "",
         is_available: true,
         house_id: "",
     });
@@ -111,9 +110,6 @@ export default function NewRoomPage() {
         if (!formData.beds || isNaN(Number(formData.beds)) || Number(formData.beds) <= 0) {
             return "Number of beds must be a valid positive number.";
         }
-        if (!formData.renters || isNaN(Number(formData.renters)) || Number(formData.renters) <= 0) {
-            return "Number of renters must be a valid positive number.";
-        }
         if (!formData.house_id) {
             return "Please select a house.";
         }
@@ -169,15 +165,14 @@ export default function NewRoomPage() {
             // Insert room data into the database
             const { error: insertError } = await supabase.from("rooms").insert({
                 id: roomId,
-                number: formData.number.trim(),
+                number: Number(formData.number),
                 price: Number(formData.price),
                 description: formData.description.trim(),
                 type: formData.type.trim(),
                 beds: Number(formData.beds),
-                renters: Number(formData.renters),
                 is_available: formData.is_available,
                 house_id: formData.house_id,
-                house_number: selectedHouse.number,
+                house_number: Number(selectedHouse.number),
                 images: uploadedImageUrls,
             });
 
@@ -282,20 +277,6 @@ export default function NewRoomPage() {
                                     onChange={handleInputChange}
                                     disabled={loading}
                                     placeholder="Number of beds"
-                                />
-                            </div>
-
-                            <div>
-                                <Label htmlFor="renters">Max Renters</Label>
-                                <Input
-                                    id="renters"
-                                    name="renters"
-                                    type="number"
-                                    min="1"
-                                    value={formData.renters}
-                                    onChange={handleInputChange}
-                                    disabled={loading}
-                                    placeholder="Maximum number of renters"
                                 />
                             </div>
                         </div>

@@ -92,7 +92,7 @@ export default function EditHousePage() {
     };
 
     const validateInputs = () => {
-        if (!formData.number || isNaN(Number(formData.number))) {
+        if (!formData.number) {
             return "House number must be a valid number.";
         }
         if (!formData.street.trim()) {
@@ -160,7 +160,7 @@ export default function EditHousePage() {
             // Update the house data in the database
             const { error: updateError } = await supabase.from("houses").update({
                 images: allImages,
-                number: Number(formData.number),
+                number: formData.number,
                 street: formData.street.trim(),
                 postal_code: formData.postal_code.trim(),
                 description: formData.description.trim(),
