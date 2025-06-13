@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 import { createClient } from "@/lib/supabase/client";
 import { getAuthRedirectUrl } from "@/lib/utils/site-url";
 import { Button } from "@/components/ui/button";
@@ -47,12 +47,16 @@ export function SignUpForm({
     }
 
     try {
+      const redirectUrl = getAuthRedirectUrl("/auth/confirm-email");
+      console.log("Sign-up redirect URL:", redirectUrl);
+
       const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: getAuthRedirectUrl('/protected'),
+          emailRedirectTo: redirectUrl,
         },
+
       });
 
       if (signUpError) throw signUpError;
