@@ -2,7 +2,6 @@
 
 import { cn } from "@/lib/utils/utils";
 import { createClient } from "@/lib/supabase/client";
-import { getAuthRedirectUrl } from "@/lib/utils/site-url";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -34,7 +33,7 @@ export function ForgotPasswordForm({
     try {
       // The url which will be included in the email. This URL needs to be configured in your redirect URLs in the Supabase dashboard at https://supabase.com/dashboard/project/_/auth/url-configuration
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: getAuthRedirectUrl('/auth/update-password'),
+        redirectTo: 'https://erasmus33-web.vercel.app/auth/update-password',
       });
       if (error) throw error;
       setSuccess(true);

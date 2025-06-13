@@ -2,7 +2,6 @@
 
 import { cn } from "@/lib/utils/utils";
 import { createClient } from "@/lib/supabase/client";
-import { getAuthRedirectUrl } from "@/lib/utils/site-url";
 import { Button } from "@/components/ui/button";
 import {
   Card,
