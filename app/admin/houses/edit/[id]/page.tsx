@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -172,8 +172,8 @@ export default function EditHousePage() {
 
             // Redirect to the houses list page
             router.push("/admin/houses");
-        } catch (err: any) {
-            setError(err.message || "An unexpected error occurred.");
+        } catch (err: unknown) {
+            setError((err as Error).message || "An unexpected error occurred.");
         } finally {
             setLoading(false);
         }
@@ -313,7 +313,7 @@ export default function EditHousePage() {
                                         <AlertDialog>
                                             <AlertDialogTrigger asChild>
                                                 <Button variant="destructive" disabled={loading} className="w-32">
-                                                    I'm Aware
+                                                    I&apos;m Aware
                                                 </Button>
                                             </AlertDialogTrigger>
                                             <AlertDialogContent>

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MapPin, Home, Users } from "lucide-react";
+import { MapPin, Home } from "lucide-react";
 
 interface HouseCardProps {
   house: House;

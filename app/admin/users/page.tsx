@@ -1,7 +1,6 @@
-'use client'
+"use client";
 
 import { createClient } from "@/lib/supabase/client";
-import { redirect } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,15 +21,7 @@ import {
 import Link from "next/link";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useEffect, useState, useMemo } from "react";
-
-interface AdminProfile {
-    user_id: string;
-    role: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    is_active: boolean;
-}
+import Image from "next/image";
 
 interface UserProfile {
     user_id: string;
@@ -46,52 +37,6 @@ interface UserProfile {
     created_at?: string;
 }
 
-async function checkAdminAccess(): Promise<AdminProfile> {
-    const supabase = await createClient();
-
-    // Get the current user
-    const {
-        data: { user },
-        error: userError,
-    } = await supabase.auth.getUser();
-
-    if (userError || !user) {
-        redirect("/auth/login");
-    }
-
-    // Get user profile with role information
-    const { data: profile, error: profileError } = await supabase
-        .from("profiles")
-        .select("user_id, role, first_name, last_name, email, is_active")
-        .eq("user_id", user.id)
-        .single();
-
-    if (profileError || !profile) {
-        redirect("/auth/login");
-    }
-
-    // Check if user is admin
-    if (profile.role !== "admin") {
-        redirect("/protected");
-    }
-
-    return profile as AdminProfile;
-}
-
-async function getAllUsers(): Promise<UserProfile[]> {
-    const supabase = await createClient();
-
-    const { data: users, error } = await supabase
-        .from("profiles")
-        .select("*")
-
-    if (error) {
-        console.error("Error fetching users:", error);
-        return [];
-    }
-
-    return users as UserProfile[];
-}
 
 function getUserInitials(firstName: string, lastName: string): string {
     return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
@@ -180,7 +125,6 @@ export default function UsersManagementPage() {
     }, [users, searchQuery, filterOption]);
 
     // Verify admin access first
-    const adminProfile = checkAdminAccess();
 
     const totalUsers = users.length;
     const activeUsers = users.filter(user => user.is_active).length;
@@ -318,9 +262,11 @@ export default function UsersManagementPage() {
                                     <div className="flex items-center gap-4">
                                         <Avatar className="h-12 w-12 bg-primary text-primary-foreground">
                                             {user.picture_url ? (
-                                                <img
+                                                <Image
                                                     src={user.picture_url}
                                                     alt={`${user.first_name} ${user.last_name}`}
+                                                    width={48}
+                                                    height={48}
                                                     className="h-full w-full object-cover"
                                                 />
                                             ) : (

@@ -9,7 +9,7 @@ export default function NotFound() {
                 <Home className="w-16 h-16 mx-auto text-muted-foreground" />
                 <h1 className="text-3xl font-bold">House Not Found</h1>
                 <p className="text-muted-foreground max-w-md">
-                    The house you're looking for doesn't exist or may have been removed from our listings.
+                    The house you&apos;re looking for doesn&apos;t exist or may have been removed from our listings.
                 </p>
             </div>
 

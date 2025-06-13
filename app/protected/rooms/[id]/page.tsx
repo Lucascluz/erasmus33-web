@@ -6,9 +6,9 @@ import { RoomDetails } from "../../../../components/room-details";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface RoomPageProps {
-    params: {
+    params: Promise<{
         id: string;
-    };
+    }>;
 }
 
 async function getRoom(id: string): Promise<Room | null> {

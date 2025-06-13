@@ -6,13 +6,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default async function RoomsPage({
     searchParams,
 }: {
-    searchParams: {
+    searchParams: Promise<{
         page?: string;
         availability?: string;
         type?: string;
         minPrice?: string;
         maxPrice?: string;
-    };
+    }>;
 }) {
     const resolvedSearchParams = await searchParams;
     const page = parseInt(resolvedSearchParams.page || "1", 10);

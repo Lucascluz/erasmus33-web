@@ -30,25 +30,27 @@ export function UserDropdown({ firstName, role, profilePicture }: UserDropdownPr
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-2">
+            <DropdownMenuTrigger className="flex items-center gap-2 p-2 rounded-md hover:bg-secondary/60 transition-colors">
                 <Avatar className="cursor-pointer">
                     <AvatarImage src={profilePicture} alt="User Avatar" />
                     <AvatarFallback className="bg-gray-500 text-white">
                         {firstName.charAt(0).toUpperCase()}
                     </AvatarFallback>
                 </Avatar>
-                Hey, {firstName}!
+                <p className="hidden md:block text-sm font-medium text-accent-foreground">
+                    Hey, {firstName}!
+                </p>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => router.push("/profile")} className="hover:bg-secondary">
+                <DropdownMenuItem onClick={() => router.push("/protected/profile")} className="hover:bg-secondary">
                     Profile
                 </DropdownMenuItem>
                 {role === "admin" && (
-                    <DropdownMenuItem onClick={() => router.push("/admin")} className="hover:bg-blue-500">
+                    <DropdownMenuItem onClick={() => router.push("/admin")} className="bg-background hover:bg-blue-500">
                         Admin
                     </DropdownMenuItem>
                 )}
-                <DropdownMenuItem onClick={handleLogout} className="hover:bg-red-500">
+                <DropdownMenuItem onClick={handleLogout} className="bg-background hover:bg-red-500">
                     Logout
                 </DropdownMenuItem>
             </DropdownMenuContent>

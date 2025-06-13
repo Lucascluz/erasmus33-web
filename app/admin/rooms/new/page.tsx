@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Textarea } from "@/components/ui/textarea";
 import { Trash, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface House {
     id: string;
@@ -185,8 +186,8 @@ export default function NewRoomPage() {
             }
 
             router.push("/admin/rooms");
-        } catch (err: any) {
-            setError(err.message || "An unexpected error occurred.");
+        } catch (err: unknown) {
+            setError((err as Error).message || "An unexpected error occurred.");
         } finally {
             setLoading(false);
         }
@@ -344,8 +345,10 @@ export default function NewRoomPage() {
                             <div className="flex flex-wrap gap-4">
                                 {newImages.map((image) => (
                                     <div key={image.name} className="relative">
-                                        <img
+                                        <Image
                                             src={URL.createObjectURL(image)}
+                                            width={128}
+                                            height={128}
                                             alt="New Room Image"
                                             className="w-32 h-32 object-cover rounded-md shadow-md"
                                         />

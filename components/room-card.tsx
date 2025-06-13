@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Home, Users, Bed, Euro } from "lucide-react";
+import { Users, Bed, Euro } from "lucide-react";
 
 interface RoomCardProps {
     room: Room;

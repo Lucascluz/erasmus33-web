@@ -9,8 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { v4 as uuidv4 } from "uuid";
 import { Textarea } from "@/components/ui/textarea";
-import ImageList from "@/components/image-list";
 import { Trash } from "lucide-react";
+import Image from "next/image";
 
 export default function NewHousePage() {
     const [formData, setFormData] = useState({
@@ -128,8 +128,8 @@ export default function NewHousePage() {
             }
 
             router.push("/admin/houses");
-        } catch (err: any) {
-            setError(err.message || "An unexpected error occurred.");
+        } catch (err: unknown) {
+            setError((err as Error).message || "An unexpected error occurred.");
         } finally {
             setLoading(false);
         }
@@ -212,9 +212,11 @@ export default function NewHousePage() {
                             <div className="flex flex-wrap gap-4">
                                 {newImages.map((image) => (
                                     <div key={image.name} className="relative">
-                                        <img
+                                        <Image
                                             src={URL.createObjectURL(image)}
                                             alt="New House Image"
+                                            width={128}
+                                            height={128}
                                             className="w-32 h-32 object-cover rounded-md shadow-md"
                                         />
                                         <Button

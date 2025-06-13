@@ -1,7 +1,6 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
-import { redirect } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
@@ -9,43 +8,18 @@ import {
     Home,
     ArrowLeft,
     Search,
-    Filter,
     MoreVertical,
     Plus,
 } from "lucide-react";
 import Link from "next/link";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useEffect, useState, useMemo } from "react";
-import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogAction, AlertDialogCancel, AlertDialogTitle, AlertDialogDescription } from "@/components/ui/alert-dialog";
 
 interface House {
     number: number;
     id: string;
     street: string;
     created_at?: string;
-}
-
-async function checkAdminAccess() {
-    const supabase = await createClient();
-
-    const {
-        data: { user },
-        error: userError,
-    } = await supabase.auth.getUser();
-
-    if (userError || !user) {
-        redirect("/auth/login");
-    }
-
-    const { data: profile, error: profileError } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("user_id", user.id)
-        .single();
-
-    if (profileError || !profile || profile.role !== "admin") {
-        redirect("/protected");
-    }
 }
 
 async function getAllHouses(): Promise<House[]> {
@@ -64,8 +38,6 @@ async function getAllHouses(): Promise<House[]> {
 export default function HousesManagementPage() {
     const [houses, setHouses] = useState<House[]>([]);
     const [searchQuery, setSearchQuery] = useState("");
-    const [filterOption, setFilterOption] = useState<string | null>(null);
-    const [deleteHouseId, setDeleteHouseId] = useState<string | null>(null);
 
     useEffect(() => {
         async function fetchHouses() {
@@ -74,8 +46,6 @@ export default function HousesManagementPage() {
         }
         fetchHouses();
     }, []);
-
-    checkAdminAccess();
 
     const filteredHouses = useMemo(() => {
         return houses.filter((house) => {
@@ -87,21 +57,6 @@ export default function HousesManagementPage() {
             return matchesSearch;
         });
     }, [houses, searchQuery]);
-
-    const handleDeleteHouse = async (houseId: string) => {
-        try {
-            const supabase = createClient();
-            const { error } = await supabase.from("houses").delete().eq("id", houseId);
-
-            if (error) {
-                throw new Error(error.message);
-            }
-
-            setHouses((prevHouses) => prevHouses.filter((house) => house.id !== houseId));
-        } catch (err) {
-            console.error("Error deleting house:", err);
-        }
-    };
 
     return (
         <div className="min-h-screen bg-background">

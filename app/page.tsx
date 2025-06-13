@@ -38,75 +38,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Discover Guarda with Erasmus33</h2>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              We provide exceptional accommodation and experiences for international students in the historic city of Guarda.
-              From comfortable housing to cultural adventures, we make your Erasmus journey unforgettable.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="relative h-48">
-                <Image
-                  src="/images/erasmus/piquinique.jpg"
-                  alt="Students enjoying a picnic"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <CardHeader>
-                <CardTitle>Student Community</CardTitle>
-                <CardDescription>
-                  Join a vibrant community of international students and create lasting friendships
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="relative h-48">
-                <Image
-                  src="/images/guarda/catedral.jpg"
-                  alt="Guarda Cathedral"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <CardHeader>
-                <CardTitle>Historic City</CardTitle>
-                <CardDescription>
-                  Explore the rich history and stunning architecture of Portugal's highest city
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="relative h-48">
-                <Image
-                  src="/images/erasmus/jogando-bola.jpg"
-                  alt="Students playing sports"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <CardHeader>
-                <CardTitle>Active Lifestyle</CardTitle>
-                <CardDescription>
-                  Enjoy sports, outdoor activities, and a healthy lifestyle in beautiful surroundings
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </div>
-        </div>
-      </section>
-
       {/* Services Section */}
-      <section className="py-20 px-4 bg-muted/30">
-        <div className="max-w-7xl mx-auto">
+      <section className="relative py-20 bg-cover bg-center">
+        <div className="relative z-10 max-w-7xl mx-auto"> {/* Added relative and z-10 to ensure content is above overlay */}
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Our Services</h2>
             <p className="text-lg text-muted-foreground">Everything you need for a successful Erasmus experience</p>
@@ -142,14 +76,81 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="relative h-96 rounded-lg overflow-hidden">
+            <div className="relative h-96 rounded-lg overflow-hidden ">
               <Image
                 src="/assets/logo.png"
-                alt="Estrela Geopark"
+                alt="Erasmus33 Logo"
                 fill
-                className="object-contain transition-transform animate-pulse hover:scale-105"
+                className="object-contain transition-transform hover:scale-105"
               />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="relative py-20 px-4 bg-[url('/assets/misc/mapa.png')] bg-cover bg-center text-white">
+        <div className="absolute inset-0 bg-black/60 z-0" /> {/* Added transparent overlay */}
+        <div className="relative z-10 max-w-7xl mx-auto"> {/* Ensured content is above overlay */}
+          <div className="text-center mb-16 p-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Discover Guarda with Erasmus33</h2>
+            <p className="text-lg max-w-3xl mx-auto">
+              We provide exceptional accommodation and experiences for international students in the historic city of Guarda.
+              From comfortable housing to cultural adventures, we make your Erasmus journey unforgettable.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+              <div className="relative h-48">
+                <Image
+                  src="/images/erasmus/piquinique.jpg"
+                  alt="Students enjoying a picnic"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <CardHeader>
+                <CardTitle>Student Community</CardTitle>
+                <CardDescription>
+                  Join a vibrant community of international students and create lasting friendships
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+              <div className="relative h-48">
+                <Image
+                  src="/images/guarda/catedral.jpg"
+                  alt="Guarda Cathedral"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <CardHeader>
+                <CardTitle>Historic City</CardTitle>
+                <CardDescription>
+                  Explore the rich history and stunning architecture of Portugal&apos;s highest city
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+              <div className="relative h-48">
+                <Image
+                  src="/images/erasmus/jogando-bola.jpg"
+                  alt="Students playing sports"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <CardHeader>
+                <CardTitle>Active Lifestyle</CardTitle>
+                <CardDescription>
+                  Enjoy sports, outdoor activities, and a healthy lifestyle in beautiful surroundings
+                </CardDescription>
+              </CardHeader>
+            </Card>
           </div>
         </div>
       </section>
@@ -200,18 +201,21 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-primary text-primary-foreground">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="relative overflow-hidden py-20 px-4 bg-primary text-primary-foreground">
+        <Image
+          src="/assets/misc/textured-mulberry-paper.jpg"
+          alt="Map background"
+          layout="fill"
+          objectFit="cover"
+        />
+        <div className="relative z-10 max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Start Your Adventure?</h2>
           <p className="text-xl mb-8 opacity-90">
             Join hundreds of international students who have made Guarda their home away from home
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" variant="secondary">
+            <Button asChild size="lg" variant="secondary" color="blue">
               <Link href="/auth/sign-up">Get Started Today</Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-              <Link href="/protected/houses">View Available Housing</Link>
             </Button>
           </div>
         </div>

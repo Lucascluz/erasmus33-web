@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
+import Image from "next/image";
 
 interface ImageListProps {
     formDataImages: string[];
@@ -18,9 +19,11 @@ export default function ImageList({
         <div className="flex flex-wrap gap-4">
             {formDataImages.map((imageUrl) => (
                 <div key={imageUrl} className="relative">
-                    <img
+                    <Image
                         src={imageUrl}
                         alt="House Image"
+                        width={128}
+                        height={128}
                         className="w-32 h-32 object-cover rounded-md shadow-md"
                     />
                     <Button
@@ -34,9 +37,11 @@ export default function ImageList({
             ))}
             {newImages.map((image) => (
                 <div key={image.name} className="relative">
-                    <img
+                    <Image
                         src={URL.createObjectURL(image)}
                         alt="New House Image"
+                        width={128}
+                        height={128}
                         className="w-32 h-32 object-cover rounded-md shadow-md"
                     />
                     <Button

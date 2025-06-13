@@ -20,7 +20,6 @@ import {
 import Link from "next/link";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useEffect, useState, useMemo } from "react";
-import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogAction, AlertDialogCancel, AlertDialogTitle, AlertDialogDescription } from "@/components/ui/alert-dialog";
 import Room from "@/lib/types/room";
 
 async function checkAdminAccess() {
@@ -93,20 +92,6 @@ export default function RoomsManagementPage() {
         });
     }, [rooms, searchQuery, filterOption]);
 
-    const handleDeleteRoom = async (roomId: string) => {
-        try {
-            const supabase = createClient();
-            const { error } = await supabase.from("rooms").delete().eq("id", roomId);
-
-            if (error) {
-                throw new Error(error.message);
-            }
-
-            setRooms((prevRooms) => prevRooms.filter((room) => room.id !== roomId));
-        } catch (err) {
-            console.error("Error deleting room:", err);
-        }
-    };
 
     return (
         <div className="min-h-screen bg-background">

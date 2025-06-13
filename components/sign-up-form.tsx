@@ -28,7 +28,6 @@ export function SignUpForm({
   const [phoneNumber, setPhoneNumber] = useState("");
   const [country, setCountry] = useState("");
   const [preferredLanguage, setPreferredLanguage] = useState("");
-  const [role, setRole] = useState("user");
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -83,7 +82,7 @@ export function SignUpForm({
         role: "user",
         email: email,
         picture_url: profilePictureUrl,
-        is_active: true,
+        is_active: false, 
       });
 
       if (profileError) throw profileError;

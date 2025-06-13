@@ -6,9 +6,9 @@ import { HouseDetails } from "../../../../components/house-details";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface HousePageProps {
-    params: {
+    params: Promise<{
         id: string;
-    };
+    }>;
 }
 
 async function getHouse(id: string): Promise<House | null> {

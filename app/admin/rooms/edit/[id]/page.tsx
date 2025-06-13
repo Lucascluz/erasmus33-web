@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { v4 as uuidv4 } from "uuid";
 import { Trash, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface House {
     id: string;
@@ -441,9 +442,11 @@ export default function EditRoomPage() {
                                     {/* Current Images */}
                                     {formData.images.map((imageUrl, index) => (
                                         <div key={`current-${index}`} className="relative">
-                                            <img
+                                            <Image
                                                 src={imageUrl}
                                                 alt={`Current Room Image ${index + 1}`}
+                                                width={128}
+                                                height={128}
                                                 className="w-32 h-32 object-cover rounded-md shadow-md"
                                             />
                                             <Button
@@ -465,9 +468,11 @@ export default function EditRoomPage() {
                                     {/* New Images */}
                                     {newImages.map((image, index) => (
                                         <div key={`new-${index}`} className="relative">
-                                            <img
+                                            <Image
                                                 src={URL.createObjectURL(image)}
                                                 alt={`New Room Image ${index + 1}`}
+                                                width={128}
+                                                height={128}
                                                 className="w-32 h-32 object-cover rounded-md shadow-md"
                                             />
                                             <Button

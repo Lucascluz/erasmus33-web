@@ -5,7 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default async function HousesPage({
     searchParams,
 }: {
-    searchParams: { page?: string };
+    searchParams: Promise<{ page?: string }>;
 }) {
     const resolvedSearchParams = await searchParams;
     const page = parseInt(resolvedSearchParams.page || "1", 10);
