@@ -42,7 +42,7 @@ export default async function ProtectedPage() {
             Welcome back, {userName}! 👋
           </h1>
           <p className="text-muted-foreground">
-            Here's your personalized dashboard for Erasmus33 housing.
+            Here&apos;s your personalized dashboard for Erasmus33 housing.
           </p>
         </div>
 
