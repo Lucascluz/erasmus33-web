@@ -18,7 +18,7 @@ interface RoomCardProps {
 }
 
 export function RoomCard({ room }: RoomCardProps) {
-    const mainImage = room.images?.[0] || "/assets/misc/rented.png";
+    const mainImage = room.images?.[0] || "/assets/logo.png";
 
     return (
         <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200">
@@ -47,7 +47,7 @@ export function RoomCard({ room }: RoomCardProps) {
 
             <CardHeader className="pb-3">
                 <CardTitle className="text-lg">
-                    Room {room.number} - House {room.house_number}
+                   House {room.house_number} - Room {room.number}
                 </CardTitle>
                 <CardDescription className="flex items-center justify-between text-sm">
                     <div className="flex items-center">

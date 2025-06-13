@@ -4,7 +4,6 @@ import { createClient } from "@/lib/supabase/client";
 import { redirect } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
     Home,
@@ -23,7 +22,7 @@ import { useEffect, useState, useMemo } from "react";
 import Room from "@/lib/types/room";
 
 async function checkAdminAccess() {
-    const supabase = await createClient();
+    const supabase = createClient();
 
     const {
         data: { user },
@@ -55,6 +54,8 @@ async function getAllRooms(): Promise<Room[]> {
         return [];
     }
 
+    console.log("Fetched rooms:", rooms);
+
     return rooms as Room[];
 }
 
@@ -77,7 +78,7 @@ export default function RoomsManagementPage() {
         return rooms.filter((room) => {
             const matchesSearch =
                 room.number.toString().includes(searchQuery) ||
-                room.house_number.toString().includes(searchQuery) ||
+                room.house_number .includes(searchQuery) ||
                 room.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 room.description.toLowerCase().includes(searchQuery.toLowerCase());
 
@@ -166,12 +167,6 @@ export default function RoomsManagementPage() {
                             <CardContent className="p-6">
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-4">
-                                        <Avatar className="h-12 w-12 bg-primary text-primary-foreground flex items-center justify-center">
-                                            <span className="text-lg font-semibold">
-                                                {room.number}
-                                            </span>
-                                        </Avatar>
-
                                         <div className="flex-1">
                                             <div className="flex items-center gap-2 mb-1">
                                                 <h3 className="font-semibold text-lg">
