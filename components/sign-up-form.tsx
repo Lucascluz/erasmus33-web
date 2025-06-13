@@ -50,7 +50,7 @@ export function SignUpForm({
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/protected`,
+          emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || window.location.origin}/protected`,
         },
       });
 
@@ -82,7 +82,7 @@ export function SignUpForm({
         role: "user",
         email: email,
         picture_url: profilePictureUrl,
-        is_active: false, 
+        is_active: false,
       });
 
       if (profileError) throw profileError;

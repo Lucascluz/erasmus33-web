@@ -78,9 +78,12 @@ If you wish to just develop locally and not deploy to Vercel, [follow the steps 
    ```
    NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
    NEXT_PUBLIC_SUPABASE_ANON_KEY=[INSERT SUPABASE PROJECT API ANON KEY]
+   NEXT_PUBLIC_SITE_URL=http://localhost:3000
    ```
 
    Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found in [your Supabase project's API settings](https://supabase.com/dashboard/project/_?showConnect=true)
+
+   The `NEXT_PUBLIC_SITE_URL` is used for email redirects in authentication flows. Set this to your production URL when deploying.
 
 5. You can now run the Next.js local development server:
 
@@ -91,6 +94,28 @@ If you wish to just develop locally and not deploy to Vercel, [follow the steps 
    The starter kit should now be running on [localhost:3000](http://localhost:3000/).
 
 6. This template comes with the default shadcn/ui style initialized. If you instead want other ui.shadcn styles, delete `components.json` and [re-install shadcn/ui](https://ui.shadcn.com/docs/installation/next)
+
+## Deployment Configuration
+
+### Environment Variables for Production
+
+When deploying to Vercel or any other platform, make sure to set the following environment variables:
+
+- `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase project URL
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Your Supabase project API anon key  
+- `NEXT_PUBLIC_SITE_URL`: Your production domain (e.g., `https://your-app.vercel.app`)
+
+The `NEXT_PUBLIC_SITE_URL` is crucial for proper email authentication redirects. Without this, confirmation emails will redirect to localhost instead of your production domain.
+
+### Supabase Auth Configuration
+
+In your Supabase dashboard, make sure to add your production domain to the allowed redirect URLs:
+
+1. Go to Authentication > URL Configuration
+2. Add your production URL to "Site URL" (e.g., `https://your-app.vercel.app`)
+3. Add redirect URLs for auth flows:
+   - `https://your-app.vercel.app/protected` (sign-up confirmation)
+   - `https://your-app.vercel.app/auth/update-password` (password reset)
 
 > Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
 
