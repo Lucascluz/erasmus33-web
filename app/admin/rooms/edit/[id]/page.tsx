@@ -287,7 +287,7 @@ export default function EditRoomPage() {
     }
 
     return (
-        <div className="min-h-screen bg-background flex items-center justify-center px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-background flex items-center justify-center px-6 md:px-8 lg:px-12">
             <Card className="w-full max-w-4xl">
                 <CardContent className="p-6">
                     <div className="flex items-center gap-4 mb-6">
