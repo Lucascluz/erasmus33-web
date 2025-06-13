@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
+import { getAuthRedirectUrl } from "@/lib/utils/site-url";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -50,7 +51,7 @@ export function SignUpForm({
         email,
         password,
         options: {
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/protected`,
+          emailRedirectTo: getAuthRedirectUrl('/protected'),
         },
       });
 
