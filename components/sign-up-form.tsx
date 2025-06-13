@@ -64,7 +64,7 @@ export function SignUpForm({
       if (profilePicture) {
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from("profile_pictures")
-          .upload(`${userId}/${profilePicture.name}`, profilePicture);
+          .upload(`public/${userId}`, profilePicture);
 
         if (uploadError) throw uploadError;
 
