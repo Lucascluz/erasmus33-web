@@ -11,52 +11,67 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MapPin, Home } from "lucide-react";
+import { MapPin, Home, BedDouble } from "lucide-react";
 
 interface HouseCardProps {
   house: House;
 }
 
 export function HouseCard({ house }: HouseCardProps) {
-  const mainImage = house.images?.[0] || "/assets/misc/rented.png";
+  const mainImage = house.images?.[0];
   const address = `${house.street} ${house.number}, ${house.postal_code}`;
 
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200">
-      <div className="relative aspect-video">
-        <Image
-          src={mainImage}
-          alt={`House at ${address}`}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
+    <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200 h-full">
+      <div className="relative aspect-[4/3]">
+        {mainImage ? (
+          <Image
+            src={mainImage}
+            alt={`House at ${address}`}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        ) : (
+          <div className="w-full h-full bg-muted flex items-center justify-center">
+            <div className="text-center text-muted-foreground">
+              <Home className="w-16 h-16 mx-auto mb-3 opacity-50" />
+              <p className="text-base font-medium">Sem imagens disponíveis</p>
+            </div>
+          </div>
+        )}
         {house.floor && (
-          <Badge className="absolute top-2 right-2 bg-background/80 text-foreground border">
+          <Badge className="absolute top-3 right-3 bg-background/80 text-foreground border">
             <Home className="w-3 h-3 mr-1" />
             Floor {house.floor}
           </Badge>
         )}
       </div>
 
-      <CardHeader className="pb-3">
-        <CardTitle className="text-lg line-clamp-1">{address}</CardTitle>
-        <CardDescription className="flex items-center text-sm">
+      <CardHeader className="pb-4">
+        <CardTitle className="text-xl line-clamp-1">{address}</CardTitle>
+        <CardDescription className="flex items-center text-base">
           <MapPin className="w-4 h-4 mr-1" />
           Guarda, Portugal
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="pt-0">
-        <p className="text-sm text-muted-foreground line-clamp-2">
+      <CardContent className="pt-0 pb-4">
+        <p className="text-base text-muted-foreground line-clamp-3">
           {house.description || "Beautiful house available for rent."}
         </p>
       </CardContent>
 
-      <CardFooter className="pt-3">
+      <CardFooter className="pt-0 flex flex-col gap-3">
         <Button asChild className="w-full">
           <Link href={`/protected/houses/${house.id}`}>
-            View Details
+            Ver Detalhes
+          </Link>
+        </Button>
+        <Button asChild variant="outline" className="w-full">
+          <Link href={`/protected/rooms?house_id=${house.id}`}>
+            <BedDouble className="w-4 h-4 mr-2" />
+            Ver Quartos Disponíveis
           </Link>
         </Button>
       </CardFooter>

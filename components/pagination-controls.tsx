@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -15,6 +18,14 @@ export function PaginationControls({
   hasNextPage,
   hasPrevPage,
 }: PaginationControlsProps) {
+  const searchParams = useSearchParams();
+
+  // Helper function to create URL with preserved search params
+  const createPageUrl = (page: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", page.toString());
+    return `?${params.toString()}`;
+  };
   // Generate page numbers to show
   const getPageNumbers = () => {
     const delta = 2; // Show 2 pages before and after current page
@@ -62,14 +73,14 @@ export function PaginationControls({
         disabled={!hasPrevPage}
       >
         {hasPrevPage ? (
-          <Link href={`?page=${currentPage - 1}`}>
+          <Link href={createPageUrl(currentPage - 1)}>
             <ChevronLeft className="w-4 h-4 mr-1" />
-            Previous
+            Anterior
           </Link>
         ) : (
           <>
             <ChevronLeft className="w-4 h-4 mr-1" />
-            Previous
+            Anterior
           </>
         )}
       </Button>
@@ -92,7 +103,7 @@ export function PaginationControls({
               {currentPage === pageNum ? (
                 <span>{pageNum}</span>
               ) : (
-                <Link href={`?page=${pageNum}`}>{pageNum}</Link>
+                <Link href={createPageUrl(pageNum as number)}>{pageNum}</Link>
               )}
             </Button>
           )
@@ -114,13 +125,13 @@ export function PaginationControls({
         disabled={!hasNextPage}
       >
         {hasNextPage ? (
-          <Link href={`?page=${currentPage + 1}`}>
-            Next
+          <Link href={createPageUrl(currentPage + 1)}>
+            Próximo
             <ChevronRight className="w-4 h-4 ml-1" />
           </Link>
         ) : (
           <>
-            Next
+            Próximo
             <ChevronRight className="w-4 h-4 ml-1" />
           </>
         )}
