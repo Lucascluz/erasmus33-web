@@ -47,14 +47,11 @@ export function SignUpForm({
     }
 
     try {
-      const redirectUrl = getAuthRedirectUrl("/auth/confirm-email");
-      console.log("Sign-up redirect URL:", redirectUrl);
-
       const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: redirectUrl,
+          emailRedirectTo: "https://erasmus33-web.vercel.app/protected",
         },
 
       });
