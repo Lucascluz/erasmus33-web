@@ -20,10 +20,13 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -33,15 +36,24 @@ export function LoginForm({
     setError(null);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
+
       if (error) throw error;
-      // Update this route to redirect to an authenticated route. The user already has an active session.
-      router.push("/protected");
+
+      if (data.user) {
+        console.log("Login successful:", data.user);
+        // Redirect to the home page or wherever you want after login
+        router.push("/");
+        router.refresh(); // Refresh to update auth state
+      }
+
     } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "An error occurred");
+      console.error("Login error:", error);
+      setError(error instanceof Error ? error.message : "An error occurred during login");
+
     } finally {
       setIsLoading(false);
     }
@@ -94,7 +106,7 @@ export function LoginForm({
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
+              Don't have an account?{" "}
               <Link
                 href="/auth/sign-up"
                 className="underline underline-offset-4"
