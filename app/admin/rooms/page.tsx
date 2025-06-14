@@ -14,7 +14,6 @@ import {
     Plus,
     Euro,
     Bed,
-    Users,
 } from "lucide-react";
 import Link from "next/link";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -193,10 +192,6 @@ export default function RoomsManagementPage() {
                                                 <div className="flex items-center gap-1">
                                                     <Bed className="h-4 w-4" />
                                                     <span>{room.beds} bed{room.beds !== 1 ? 's' : ''}</span>
-                                                </div>
-                                                <div className="flex items-center gap-1">
-                                                    <Users className="h-4 w-4" />
-                                                    <span>{room.renters} renter{room.renters !== 1 ? 's' : ''}</span>
                                                 </div>
                                             </div>
 

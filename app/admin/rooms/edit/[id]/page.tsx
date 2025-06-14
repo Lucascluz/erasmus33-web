@@ -26,7 +26,6 @@ export default function EditRoomPage() {
         description: "",
         type: "",
         beds: 0,
-        renters: [] as string[],
         is_available: true,
         house_id: "",
         house_number: "",
@@ -74,7 +73,6 @@ export default function EditRoomPage() {
                     description: roomData.description || "",
                     type: roomData.type || "",
                     beds: roomData.beds?.toString() || "",
-                    renters: roomData.renters?.toString() || "",
                     is_available: roomData.is_available || false,
                     house_id: roomData.house_id || "",
                     house_number: roomData.house_number?.toString() || "",
@@ -174,9 +172,6 @@ export default function EditRoomPage() {
         if (!formData.beds || isNaN(Number(formData.beds)) || Number(formData.beds) <= 0) {
             return "Number of beds must be a valid positive number.";
         }
-        if (!formData.renters || isNaN(Number(formData.renters)) || Number(formData.renters) <= 0) {
-            return "Number of renters must be a valid positive number.";
-        }
         if (!formData.house_id) {
             return "Please select a house.";
         }
@@ -247,7 +242,6 @@ export default function EditRoomPage() {
                     description: formData.description.trim(),
                     type: formData.type.trim(),
                     beds: Number(formData.beds),
-                    renters: formData.renters,
                     is_available: formData.is_available,
                     house_id: formData.house_id,
                     house_number: formData.house_number,
@@ -375,20 +369,6 @@ export default function EditRoomPage() {
                                     onChange={handleInputChange}
                                     disabled={loading}
                                     placeholder="Number of beds"
-                                />
-                            </div>
-
-                            <div>
-                                <Label htmlFor="renters">Max Renters</Label>
-                                <Input
-                                    id="renters"
-                                    name="renters"
-                                    type="number"
-                                    min="1"
-                                    value={formData.renters}
-                                    onChange={handleInputChange}
-                                    disabled={loading}
-                                    placeholder="Maximum number of renters"
                                 />
                             </div>
                         </div>

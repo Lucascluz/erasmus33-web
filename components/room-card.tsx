@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, Bed, Euro, BedIcon } from "lucide-react";
+import { Bed, Euro, BedIcon } from "lucide-react";
 
 interface RoomCardProps {
     room: Room;
@@ -74,10 +74,6 @@ export function RoomCard({ room }: RoomCardProps) {
                     <div className="flex items-center">
                         <Bed className="w-4 h-4 mr-1" />
                         {room.beds} bed{room.beds !== 1 ? 's' : ''}
-                    </div>
-                    <div className="flex items-center">
-                        <Users className="w-4 h-4 mr-1" />
-                        {room.renters} renter{room.renters !== 1 ? 's' : ''}
                     </div>
                 </div>
             </CardContent>

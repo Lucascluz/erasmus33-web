@@ -18,7 +18,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
-import { ArrowLeft, Calendar, Euro, Bed, Users, CheckCircle, XCircle, Mail, MessageCircle, FileText, Clock, Shield } from "lucide-react";
+import { ArrowLeft, Calendar, Euro, Bed, CheckCircle, XCircle, Mail, MessageCircle, FileText, Clock, Shield } from "lucide-react";
 import { ImageGallery } from "@/components/image-gallery";
 
 interface RoomDetailsProps {
@@ -174,10 +174,6 @@ export function RoomDetails({ room }: RoomDetailsProps) {
                             <div className="flex items-center gap-1">
                                 <Bed className="w-4 h-4 text-muted-foreground" />
                                 <span>{room.beds} bed{room.beds !== 1 ? 's' : ''}</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <Users className="w-4 h-4 text-muted-foreground" />
-                                <span>{room.renters} renter{room.renters !== 1 ? 's' : ''}</span>
                             </div>
                             <div className="flex items-center gap-1">
                                 <Calendar className="w-4 h-4 text-muted-foreground" />
