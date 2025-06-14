@@ -44,7 +44,6 @@ export function LoginForm({
       if (error) throw error;
 
       if (data.user) {
-        console.log("Login successful:", data.user);
         // Redirect to the home page or wherever you want after login
         router.push("/protected");
         router.refresh(); // Refresh to update auth state

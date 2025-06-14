@@ -64,8 +64,6 @@ async function getAllRooms(): Promise<Room[]> {
         return [];
     }
 
-    console.log("Fetched rooms:", rooms);
-
     return rooms as Room[];
 }
 

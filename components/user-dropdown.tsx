@@ -16,13 +16,11 @@ export function UserDropdown({ firstName, role, profilePicture }: UserDropdownPr
 
     const handleLogout = async () => {
         const supabase = createClient();
-        console.log("Starting logout process...");
 
         const { error } = await supabase.auth.signOut();
         if (error) {
             console.error("Logout error:", error);
         } else {
-            console.log("Logout successful, redirecting...");
             router.push("/auth/login");
             router.refresh(); // Refresh to update auth state
         }

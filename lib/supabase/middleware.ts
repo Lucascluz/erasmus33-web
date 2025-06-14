@@ -61,7 +61,6 @@ export async function updateSession(request: NextRequest) {
     }
 
     if (!profile.is_active && request.nextUrl.pathname.startsWith("/protected")) {
-      console.log(request.nextUrl.pathname);
       const url = request.nextUrl.clone();
       url.pathname = "/";
       return NextResponse.redirect(url);
