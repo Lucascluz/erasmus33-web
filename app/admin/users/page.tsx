@@ -134,7 +134,7 @@ export default function UsersManagementPage() {
     return (
         <div className="min-h-screen bg-background">
             {/* Header */}
-            <div className="container mx-auto px-6 md:px-8 lg:px-12 py-4">
+            <div className="container mx-auto px-8 md:px-12 lg:px-20 xl:px-32 py-4">
                 <div className="flex items-center gap-4 mb-6">
                     <Link href="/admin">
                         <Button variant="outline" size="sm" className="flex items-center gap-2">

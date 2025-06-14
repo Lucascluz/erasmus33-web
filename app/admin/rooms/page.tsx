@@ -6,6 +6,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import {
     Home,
     ArrowLeft,
     Search,
@@ -14,6 +22,9 @@ import {
     Plus,
     Euro,
     Bed,
+    Eye,
+    EyeOff,
+    Settings,
 } from "lucide-react";
 import Link from "next/link";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -44,7 +55,7 @@ async function checkAdminAccess() {
 }
 
 async function getAllRooms(): Promise<Room[]> {
-    const supabase = await createClient();
+    const supabase = createClient();
 
     const { data: rooms, error } = await supabase.from("rooms").select("*");
 
@@ -62,6 +73,23 @@ export default function RoomsManagementPage() {
     const [rooms, setRooms] = useState<Room[]>([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [filterOption, setFilterOption] = useState<string | null>(null);
+    const [visibleColumns, setVisibleColumns] = useState({
+        house: true,
+        room: true,
+        type: true,
+        status: true,
+        price: true,
+        beds: false,
+        description: false,
+        added: false,
+    });
+
+    const toggleColumn = (column: keyof typeof visibleColumns) => {
+        setVisibleColumns(prev => ({
+            ...prev,
+            [column]: !prev[column]
+        }));
+    };
 
     useEffect(() => {
         async function fetchRooms() {
@@ -77,7 +105,7 @@ export default function RoomsManagementPage() {
         return rooms.filter((room) => {
             const matchesSearch =
                 room.number.toString().includes(searchQuery) ||
-                room.house_number .includes(searchQuery) ||
+                room.house_number.includes(searchQuery) ||
                 room.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 room.description.toLowerCase().includes(searchQuery.toLowerCase());
 
@@ -95,7 +123,7 @@ export default function RoomsManagementPage() {
 
     return (
         <div className="min-h-screen bg-background">
-            <div className="container mx-auto px-6 md:px-8 lg:px-12 py-4">
+            <div className="container mx-auto px-8 md:px-12 lg:px-20 xl:px-32 py-4">
                 <div className="flex items-center gap-4 mb-6">
                     <Link href="/admin">
                         <Button variant="outline" size="sm" className="flex items-center gap-2">
@@ -127,110 +155,176 @@ export default function RoomsManagementPage() {
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
                             </div>
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        className="flex items-center gap-2 border-primary text-primary hover:bg-primary hover:text-white"
-                                    >
-                                        <Filter className="h-4 w-4" />
-                                        {filterOption ? `Filter: ${filterOption}` : "Filter"}
+                            <div className="flex items-center gap-2">
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            className="flex items-center gap-2"
+                                        >
+                                            <Settings className="h-4 w-4" />
+                                            Columns
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="start">
+                                        {Object.entries(visibleColumns).map(([key, visible]) => (
+                                            <DropdownMenuItem
+                                                key={key}
+                                                onClick={() => toggleColumn(key as keyof typeof visibleColumns)}
+                                                className="flex items-center gap-2"
+                                            >
+                                                {visible ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+                                                {key.charAt(0).toUpperCase() + key.slice(1)}
+                                            </DropdownMenuItem>
+                                        ))}
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            className="flex items-center gap-2 border-primary text-primary hover:bg-primary hover:text-white"
+                                        >
+                                            <Filter className="h-4 w-4" />
+                                            {filterOption ? `Filter: ${filterOption}` : "Filter"}
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="start">
+                                        <DropdownMenuItem onClick={() => setFilterOption(null)}>
+                                            All Rooms
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => setFilterOption("available")}>
+                                            Available Rooms
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => setFilterOption("rented")}>
+                                            Rented Rooms
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                                <Link href="/admin/rooms/new">
+                                    <Button variant="default" size="lg" className="flex items-center gap-2 bg-blue-500 text-white hover:bg-blue-600">
+                                        <Plus className="h-10 w-10" />
+                                        Add New Room
                                     </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="start">
-                                    <DropdownMenuItem onClick={() => setFilterOption(null)}>
-                                        All Rooms
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => setFilterOption("available")}>
-                                        Available Rooms
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => setFilterOption("rented")}>
-                                        Rented Rooms
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                            <Link href="/admin/rooms/new">
-                                <Button variant="default" size="lg" className="flex items-center gap-2 bg-blue-500 text-white hover:bg-blue-600">
-                                    <Plus className="h-10 w-10" />
-                                    Add New Room
-                                </Button>
-                            </Link>
+                                </Link>
+                            </div>
                         </div>
                     </CardContent>
                 </Card>
 
-                <div className="grid gap-4">
-                    {filteredRooms.map((room) => (
-                        <Card key={room.id} className="hover:shadow-md transition-shadow">
-                            <CardContent className="p-6">
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-4">
-                                        <div className="flex-1">
-                                            <div className="flex items-center gap-2 mb-1">
-                                                <h3 className="font-semibold text-lg">
-                                                    Room {room.number} - House {room.house_number}
-                                                </h3>
+                <Card>
+                    <CardContent className="p-0">
+                        <Table>
+                            <TableHeader>
+                                <TableRow className="border-b">
+                                    {visibleColumns.house && <TableHead className="h-14 px-6 text-left font-semibold text-base align-middle">House</TableHead>}
+                                    {visibleColumns.room && <TableHead className="h-14 px-6 text-left font-semibold text-base align-middle">Room</TableHead>}
+                                    {visibleColumns.type && <TableHead className="h-14 px-6 text-left font-semibold text-base align-middle">Type</TableHead>}
+                                    {visibleColumns.status && <TableHead className="h-14 px-6 text-center font-semibold text-base align-middle">Status</TableHead>}
+                                    {visibleColumns.price && <TableHead className="h-14 px-6 text-left font-semibold text-base align-middle">Price</TableHead>}
+                                    {visibleColumns.beds && <TableHead className="h-14 px-6 text-left font-semibold text-base align-middle">Beds</TableHead>}
+                                    {visibleColumns.description && <TableHead className="h-14 px-6 text-left font-semibold text-base align-middle">Description</TableHead>}
+                                    {visibleColumns.added && <TableHead className="h-14 px-6 text-left font-semibold text-base align-middle">Added</TableHead>}
+                                    <TableHead className="h-14 px-6 text-right font-semibold text-base align-middle">Actions</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {filteredRooms.map((room) => (
+                                    <TableRow key={room.id} className="hover:bg-muted/50 transition-colors">
+                                        {visibleColumns.house && (
+                                            <TableCell className="py-4 px-6 align-middle">
+                                                <span className="font-medium text-base">House {room.house_number}</span>
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.room && (
+                                            <TableCell className="py-4 px-6 align-middle">
+                                                <span className="font-medium text-base">Room {room.number}</span>
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.type && (
+                                            <TableCell className="py-4 px-6 align-middle">
+                                                <Badge variant="secondary" className="font-medium text-sm px-3 py-1">
+                                                    {room.type}
+                                                </Badge>
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.status && (
+                                            <TableCell className="py-4 px-6 text-center align-middle">
                                                 <Badge
-                                                    className={`${room.is_available
+                                                    className={`font-medium text-sm px-3 py-1 ${room.is_available
                                                         ? "bg-green-500 text-white"
                                                         : "bg-red-500 text-white"
                                                         }`}
                                                 >
                                                     {room.is_available ? "Available" : "Rented"}
                                                 </Badge>
-                                                <Badge variant="secondary">
-                                                    {room.type}
-                                                </Badge>
-                                            </div>
-
-                                            <div className="flex items-center gap-4 text-sm text-muted-foreground mb-2">
-                                                <div className="flex items-center gap-1">
-                                                    <Euro className="h-4 w-4" />
-                                                    <span>€{room.price}/month</span>
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.price && (
+                                            <TableCell className="py-4 px-6 align-middle">
+                                                <div className="flex items-center gap-2">
+                                                    <Euro className="h-4 w-4 text-muted-foreground" />
+                                                    <span className="font-medium text-base">€{room.price}/month</span>
                                                 </div>
-                                                <div className="flex items-center gap-1">
-                                                    <Bed className="h-4 w-4" />
-                                                    <span>{room.beds} bed{room.beds !== 1 ? 's' : ''}</span>
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.beds && (
+                                            <TableCell className="py-4 px-6 align-middle">
+                                                <div className="flex items-center gap-2">
+                                                    <Bed className="h-4 w-4 text-muted-foreground" />
+                                                    <span className="text-base">{room.beds} bed{room.beds !== 1 ? 's' : ''}</span>
                                                 </div>
-                                            </div>
-
-                                            <p className="text-sm text-muted-foreground line-clamp-2">
-                                                {room.description || "No description available."}
-                                            </p>
-
-                                            {room.created_at && (
-                                                <p className="text-xs text-muted-foreground mt-1">
-                                                    Added {new Date(room.created_at).toLocaleDateString("en-US")}
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.description && (
+                                            <TableCell className="py-4 px-6 max-w-xs align-middle">
+                                                <p className="text-base text-muted-foreground line-clamp-2 leading-relaxed">
+                                                    {room.description || "No description available."}
                                                 </p>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <Button variant="ghost" size="icon" className="p-1">
-                                                <MoreVertical className="h-4 w-4" />
-                                            </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end">
-                                            <DropdownMenuItem>
-                                                <Link href={`/protected/rooms/${room.id}`}>
-                                                    View Details
-                                                </Link>
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem>
-                                                <Link href={`/admin/rooms/edit/${room.id}`}>
-                                                    Edit Room
-                                                </Link>
-                                            </DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.added && (
+                                            <TableCell className="py-4 px-6 align-middle">
+                                                {room.created_at && (
+                                                    <span className="text-sm text-muted-foreground font-medium">
+                                                        {new Date(room.created_at).toLocaleDateString("en-US", {
+                                                            year: 'numeric',
+                                                            month: 'short',
+                                                            day: 'numeric'
+                                                        })}
+                                                    </span>
+                                                )}
+                                            </TableCell>
+                                        )}
+                                        <TableCell className="py-4 px-6 text-right align-middle">
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button variant="ghost" size="icon" className="p-2 h-8 w-8">
+                                                        <MoreVertical className="h-4 w-4" />
+                                                    </Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end">
+                                                    <DropdownMenuItem>
+                                                        <Link href={`/protected/rooms/${room.id}`}>
+                                                            View Details
+                                                        </Link>
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem>
+                                                        <Link href={`/admin/rooms/edit/${room.id}`}>
+                                                            Edit Room
+                                                        </Link>
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </CardContent>
+                </Card>
 
                 {filteredRooms.length === 0 && (
                     <Card>

@@ -86,7 +86,7 @@ export default async function AdminPage() {
     return (
         <div className="min-h-screen bg-background">
             {/* Header */}
-            <div className="container mx-auto px-6 md:px-8 lg:px-12 py-4 flex items-center justify-between">
+            <div className="container mx-auto px-8 md:px-12 lg:px-20 xl:px-32 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <Shield className="h-8 w-8 text-primary" />
                     <div>
@@ -105,7 +105,7 @@ export default async function AdminPage() {
             </div>
 
             {/* Main Content */}
-            <main className="container mx-auto px-6 md:px-8 lg:px-12 py-8">
+            <main className="container mx-auto px-8 md:px-12 lg:px-20 xl:px-32 py-8">
 
                 {/* Statistics Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
