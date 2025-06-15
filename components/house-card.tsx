@@ -19,6 +19,7 @@ interface HouseCardProps {
 
 export function HouseCard({ house }: HouseCardProps) {
   const mainImage = house.images?.[0];
+  const name = `House ${house.number}`
   const address = `${house.street} ${house.number}, ${house.postal_code}`;
 
   return (
@@ -49,7 +50,7 @@ export function HouseCard({ house }: HouseCardProps) {
       </div>
 
       <CardHeader className="pb-4">
-        <CardTitle className="text-xl line-clamp-1">{address}</CardTitle>
+        <CardTitle className="text-xl line-clamp-1">{name}</CardTitle>
         <CardDescription className="flex items-center text-base">
           <MapPin className="w-4 h-4 mr-1" />
           Guarda, Portugal
@@ -71,7 +72,7 @@ export function HouseCard({ house }: HouseCardProps) {
         <Button asChild variant="outline" className="w-full">
           <Link href={`/protected/rooms?house_id=${house.id}`}>
             <BedDouble className="w-4 h-4 mr-2" />
-            Ver Quartos Disponíveis
+            Ver Rooms Disponíveis
           </Link>
         </Button>
       </CardFooter>

@@ -64,7 +64,7 @@ export async function HousesPager({ page, search }: HousesPagerProps) {
       <div className="flex flex-col items-center justify-center py-12">
         <div className="text-center space-y-4">
           <h3 className="text-lg font-semibold">
-            {search ? "Nenhuma casa encontrada" : "Nenhuma casa disponível"}
+            {search ? "Nenhuma house encontrada" : "Nenhuma house disponível"}
           </h3>
           <p className="text-muted-foreground">
             {search
@@ -82,13 +82,13 @@ export async function HousesPager({ page, search }: HousesPagerProps) {
       <div className="flex justify-between items-center">
         <p className="text-sm text-muted-foreground">
           {search ? (
-            <>Mostrando {houses.length} de {totalCount} casas para &quot;{search}&quot;</>
+            <>Showing {houses.length} of {totalCount} houses for &quot;{search}&quot;</>
           ) : (
-            <>Mostrando {houses.length} de {totalCount} casas</>
+            <>Showing {houses.length} of {totalCount} houses</>
           )}
         </p>
         <p className="text-sm text-muted-foreground">
-          Página {page} de {totalPages}
+          Page {page} of {totalPages}
         </p>
       </div>
 

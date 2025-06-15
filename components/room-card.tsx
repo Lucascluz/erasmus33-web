@@ -21,7 +21,7 @@ export function RoomCard({ room }: RoomCardProps) {
     const mainImage = room.images?.[0];
 
     return (
-        <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200">
+        <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200 h-full">
             <div className="relative aspect-video">
                 {mainImage ? (
                     <Image
@@ -32,13 +32,13 @@ export function RoomCard({ room }: RoomCardProps) {
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                 ) : (
-                <div className="w-full h-full bg-muted flex items-center justify-center">
-                    <div className="text-center text-muted-foreground">
-                        <BedIcon className="w-16 h-16 mx-auto mb-3 opacity-50" />
-                        <p className="text-base font-medium">Sem imagens disponíveis</p>
+                    <div className="w-full h-full bg-muted flex items-center justify-center">
+                        <div className="text-center text-muted-foreground">
+                            <BedIcon className="w-16 h-16 mx-auto mb-3 opacity-50" />
+                            <p className="text-base font-medium">Sem imagens disponíveis</p>
+                        </div>
                     </div>
-                </div>
-        )}
+                )}
                 <div className="absolute top-2 right-2 flex gap-1">
                     <Badge
                         className={`${room.is_available
@@ -73,7 +73,7 @@ export function RoomCard({ room }: RoomCardProps) {
                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
                     <div className="flex items-center">
                         <Bed className="w-4 h-4 mr-1" />
-                        {room.beds} bed{room.beds !== 1 ? 's' : ''}
+                        {room.spots} bed{room.spots !== 1 ? 's' : ''}
                     </div>
                 </div>
             </CardContent>

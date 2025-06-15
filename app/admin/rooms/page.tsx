@@ -77,7 +77,7 @@ export default function RoomsManagementPage() {
         type: true,
         status: true,
         price: true,
-        beds: false,
+        spots: false,
         description: false,
         added: false,
     });
@@ -222,7 +222,7 @@ export default function RoomsManagementPage() {
                                     {visibleColumns.type && <TableHead className="h-14 px-6 text-left font-semibold text-base align-middle">Type</TableHead>}
                                     {visibleColumns.status && <TableHead className="h-14 px-6 text-center font-semibold text-base align-middle">Status</TableHead>}
                                     {visibleColumns.price && <TableHead className="h-14 px-6 text-left font-semibold text-base align-middle">Price</TableHead>}
-                                    {visibleColumns.beds && <TableHead className="h-14 px-6 text-left font-semibold text-base align-middle">Beds</TableHead>}
+                                    {visibleColumns.spots && <TableHead className="h-14 px-6 text-left font-semibold text-base align-middle">spots</TableHead>}
                                     {visibleColumns.description && <TableHead className="h-14 px-6 text-left font-semibold text-base align-middle">Description</TableHead>}
                                     {visibleColumns.added && <TableHead className="h-14 px-6 text-left font-semibold text-base align-middle">Added</TableHead>}
                                     <TableHead className="h-14 px-6 text-right font-semibold text-base align-middle">Actions</TableHead>
@@ -268,11 +268,11 @@ export default function RoomsManagementPage() {
                                                 </div>
                                             </TableCell>
                                         )}
-                                        {visibleColumns.beds && (
+                                        {visibleColumns.spots && (
                                             <TableCell className="py-4 px-6 align-middle">
                                                 <div className="flex items-center gap-2">
                                                     <Bed className="h-4 w-4 text-muted-foreground" />
-                                                    <span className="text-base">{room.beds} bed{room.beds !== 1 ? 's' : ''}</span>
+                                                    <span className="text-base">{room.spots} bed{room.spots !== 1 ? 's' : ''}</span>
                                                 </div>
                                             </TableCell>
                                         )}

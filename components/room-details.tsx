@@ -140,7 +140,7 @@ export function RoomDetails({ room }: RoomDetailsProps) {
                         <div className="flex items-start justify-between gap-4">
                             <div className="space-y-2">
                                 <h1 className="text-3xl font-bold">
-                                    Room {room.number} - House {room.house_number}
+                                    House {room.house_number} | Room {room.number}
                                 </h1>
                                 <div className="flex items-center gap-4">
                                     <Badge
@@ -173,7 +173,7 @@ export function RoomDetails({ room }: RoomDetailsProps) {
                         <div className="flex flex-wrap gap-4 text-sm">
                             <div className="flex items-center gap-1">
                                 <Bed className="w-4 h-4 text-muted-foreground" />
-                                <span>{room.beds} bed{room.beds !== 1 ? 's' : ''}</span>
+                                <span>{room.spots} bed{room.spots !== 1 ? 's' : ''}</span>
                             </div>
                             <div className="flex items-center gap-1">
                                 <Calendar className="w-4 h-4 text-muted-foreground" />

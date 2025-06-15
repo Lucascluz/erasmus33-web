@@ -25,7 +25,7 @@ export default function NewRoomPage() {
         price: "",
         description: "",
         type: "",
-        beds: "",
+        spots: "",
         is_available: true,
         house_id: "",
     });
@@ -107,8 +107,8 @@ export default function NewRoomPage() {
         if (!formData.type.trim()) {
             return "Room type is required.";
         }
-        if (!formData.beds || isNaN(Number(formData.beds)) || Number(formData.beds) <= 0) {
-            return "Number of beds must be a valid positive number.";
+        if (!formData.spots || isNaN(Number(formData.spots)) || Number(formData.spots) <= 0) {
+            return "Number of spots must be a valid positive number.";
         }
         if (!formData.house_id) {
             return "Please select a house.";
@@ -169,7 +169,7 @@ export default function NewRoomPage() {
                 price: Number(formData.price),
                 description: formData.description.trim(),
                 type: formData.type.trim(),
-                beds: Number(formData.beds),
+                spots: Number(formData.spots),
                 is_available: formData.is_available,
                 house_id: formData.house_id,
                 house_number: Number(selectedHouse.number),
@@ -267,16 +267,16 @@ export default function NewRoomPage() {
                             </div>
 
                             <div>
-                                <Label htmlFor="beds">Number of Beds</Label>
+                                <Label htmlFor="spots">Number of spots</Label>
                                 <Input
-                                    id="beds"
-                                    name="beds"
+                                    id="spots"
+                                    name="spots"
                                     type="number"
                                     min="1"
-                                    value={formData.beds}
+                                    value={formData.spots}
                                     onChange={handleInputChange}
                                     disabled={loading}
-                                    placeholder="Number of beds"
+                                    placeholder="Number of spots"
                                 />
                             </div>
                         </div>

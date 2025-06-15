@@ -4,7 +4,7 @@ export default interface Room {
     price: number;
     description: string;
     type: string;
-    beds: number;
+    spots: number;
     is_available: boolean;
     images: string[];
     house_id: string;
