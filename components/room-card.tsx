@@ -22,7 +22,7 @@ export function RoomCard({ room }: RoomCardProps) {
 
     return (
         <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200 h-full">
-            <div className="relative aspect-video">
+            <div className="relative aspect-[4/3]">
                 {mainImage ? (
                     <Image
                         src={mainImage}
@@ -66,11 +66,11 @@ export function RoomCard({ room }: RoomCardProps) {
                 </CardDescription>
             </CardHeader>
 
-            <CardContent className="pt-0 space-y-2">
-                <p className="text-sm text-muted-foreground line-clamp-2">
+            <CardContent className="pt-0 pb-4">
+                <p className="text-base text-muted-foreground line-clamp-3">
                     {room.description || "Comfortable room for rent."}
                 </p>
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                <div className="flex items-center gap-4 text-sm text-muted-foreground mt-2">
                     <div className="flex items-center">
                         <Bed className="w-4 h-4 mr-1" />
                         {room.spots} bed{room.spots !== 1 ? 's' : ''}
@@ -78,10 +78,16 @@ export function RoomCard({ room }: RoomCardProps) {
                 </div>
             </CardContent>
 
-            <CardFooter className="pt-3">
+            <CardFooter className="pt-0 flex flex-col gap-3">
                 <Button asChild className="w-full">
                     <Link href={`/protected/rooms/${room.id}`}>
                         View Details
+                    </Link>
+                </Button>
+                <Button asChild variant="outline" className="w-full">
+                    <Link href={`/protected/houses/${room.house_number}`}>
+                        <BedIcon className="w-4 h-4 mr-2" />
+                        View House
                     </Link>
                 </Button>
             </CardFooter>

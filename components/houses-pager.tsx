@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/server";
 import House from "@/lib/types/house";
 import { HouseCard } from "./house-card";
 import { PaginationControls } from "./pagination-controls";
