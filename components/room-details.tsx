@@ -131,56 +131,55 @@ export function RoomDetails({ room }: RoomDetailsProps) {
                 address={`Room ${room.number} - House ${room.house_number}`}
             />
 
-            {/* Room Information */}
-            <div className="grid lg:grid-cols-3 gap-8 lg:grid-rows-[auto_1fr] lg:items-stretch">
-                {/* Main Content */}
-                <div className="lg:col-span-2 lg:row-span-2 flex flex-col space-y-6">
-                    {/* Header */}
-                    <div className="space-y-4">
-                        <div className="flex items-start justify-between gap-4">
-                            <div className="space-y-2">
-                                <h1 className="text-3xl font-bold">
-                                    House {room.house_number} | Room {room.number}
-                                </h1>
-                                <div className="flex items-center gap-4">
-                                    <Badge
-                                        className={`${room.is_available
-                                            ? "bg-green-500 text-white"
-                                            : "bg-red-500 text-white"
-                                            }`}
-                                    >
-                                        {room.is_available ? (
-                                            <>
-                                                <CheckCircle className="w-3 h-3 mr-1" />
-                                                Available
-                                            </>
-                                        ) : (
-                                            <>
-                                                <XCircle className="w-3 h-3 mr-1" />
-                                                Rented
-                                            </>
-                                        )}
-                                    </Badge>
-                                    <Badge variant="secondary">
-                                        {room.type} room
-                                    </Badge>
+            {/* Header */}
+            <div className="space-y-4">
+                <div className="flex items-start justify-between gap-4">
+                    <div className="space-y-2">
+                        <h1 className="text-3xl font-bold">
+                            House {room.house_number} | Room {room.number}
+                        </h1>
+                        <div className="flex items-center gap-4">
+                            <Badge
+                                className={`${room.is_available
+                                    ? "bg-green-500 text-white"
+                                    : "bg-red-500 text-white"
+                                    }`}
+                            >
+                                {room.is_available ? (
+                                    <>
+                                        <CheckCircle className="w-3 h-3 mr-1" />
+                                        Available
+                                    </>
+                                ) : (
+                                    <>
+                                        <XCircle className="w-3 h-3 mr-1" />
+                                        Rented
+                                    </>
+                                )}
+                            </Badge>
+                            <Badge variant="secondary">
+                                {room.type} room
+                            </Badge>
+
+
+                            {/* Quick Stats */}
+                            <div className="flex flex-wrap gap-4 text-sm">
+                                <div className="flex items-center gap-1">
+                                    <Calendar className="w-4 h-4 text-muted-foreground" />
+                                    <span>Listed on {formattedDate}</span>
                                 </div>
                             </div>
 
                         </div>
-
-                        {/* Quick Stats */}
-                        <div className="flex flex-wrap gap-4 text-sm">
-                            <div className="flex items-center gap-1">
-                                <Bed className="w-4 h-4 text-muted-foreground" />
-                                <span>{room.spots} bed{room.spots !== 1 ? 's' : ''}</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <Calendar className="w-4 h-4 text-muted-foreground" />
-                                <span>Listed on {formattedDate}</span>
-                            </div>
-                        </div>
                     </div>
+
+                </div>
+            </div>
+
+            {/* Room Information */}
+            <div className="grid lg:grid-cols-3 gap-8 lg:grid-rows-[auto_1fr] lg:items-stretch">
+                {/* Main Content */}
+                <div className="lg:col-span-2 lg:row-span-2 flex flex-col space-y-6">
 
                     {/* Rental Process */}
                     <Card>
@@ -271,23 +270,24 @@ export function RoomDetails({ room }: RoomDetailsProps) {
                                                 How would you like to get in touch about renting this room?
                                             </AlertDialogDescription>
                                         </AlertDialogHeader>
-                                        <AlertDialogFooter className="flex-col sm:flex-row gap-2">
-                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                            <Button
-                                                onClick={() => handleContactMethod('email')}
-                                                className="flex items-center gap-2"
-                                                variant="outline"
-                                            >
-                                                <Mail className="w-4 h-4" />
-                                                Email
-                                            </Button>
-                                            <Button
-                                                onClick={() => handleContactMethod('whatsapp')}
-                                                className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white"
-                                            >
-                                                <MessageCircle className="w-4 h-4" />
-                                                WhatsApp
-                                            </Button>
+                                        <AlertDialogFooter className="justify-between">
+                                            <AlertDialogCancel
+                                                    className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white"
+                                            >Cancel</AlertDialogCancel>
+                                                <Button
+                                                    onClick={() => handleContactMethod('email')}
+                                                    className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white"
+                                                >
+                                                    <Mail className="w-4 h-4" />
+                                                    Email
+                                                </Button>
+                                                <Button
+                                                    onClick={() => handleContactMethod('whatsapp')}
+                                                    className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white"
+                                                >
+                                                    <MessageCircle className="w-4 h-4" />
+                                                    WhatsApp
+                                                </Button>
                                         </AlertDialogFooter>
                                     </AlertDialogContent>
                                 </AlertDialog>
