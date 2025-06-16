@@ -16,10 +16,7 @@ export default async function RoomsPage({
         <div className="w-full">
             <div className="flex flex-col gap-8">
                 <div className="flex flex-col gap-2">
-                    <h1 className="text-3xl font-bold">Quartos</h1>
-                    <p className="text-muted-foreground">
-                        Navegue pelos quartos disponíveis para alugar na Guarda
-                    </p>
+                    <h1 className="text-3xl font-bold">Rooms</h1>
                 </div>
 
                 <div className="w-full max-w-2xl">

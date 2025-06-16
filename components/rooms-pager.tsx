@@ -31,7 +31,16 @@ async function getRooms(
     // Add search filter if search term is provided
     if (search && search.trim()) {
         const searchTerm = search.trim();
-        query = query.or(`house_number.ilike.%${searchTerm}%,number.ilike.%${searchTerm}%,type.ilike.%${searchTerm}%`);
+        // Check if search term is numeric for house_number and number fields
+        const isNumeric = /^\d+$/.test(searchTerm);
+
+        if (isNumeric) {
+            const numericTerm = parseInt(searchTerm);
+            query = query.or(`house_number.eq.${numericTerm},number.eq.${numericTerm},type.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`);
+        } else {
+            // For non-numeric searches, only search in text fields
+            query = query.or(`type.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`);
+        }
     }
 
     const { data: rooms, error, count } = await query
@@ -65,7 +74,7 @@ export async function RoomsPager({ page, search }: RoomsPagerProps) {
         return (
             <div className="flex flex-col items-center justify-center py-12">
                 <div className="text-center space-y-4">
-                    <h3 className="text-lg font-semibold">Nenhum quarto encontrado</h3>
+                    <h3 className="text-lg font-semibold">No rooms found</h3>
                     <p className="text-muted-foreground">
                         {search
                             ? `Tente buscar com outros termos ou verifique a ortografia.`
@@ -82,9 +91,9 @@ export async function RoomsPager({ page, search }: RoomsPagerProps) {
             <div className="flex justify-between items-center">
                 <p className="text-sm text-muted-foreground">
                     {search ? (
-                        <>Showing {rooms.length} of {totalCount} quartos for &quot;{search}&quot;</>
+                        <>Showing {rooms.length} of {totalCount} rooms for &quot;{search}&quot;</>
                     ) : (
-                        <>Showing {rooms.length} of {totalCount} quartos</>
+                        <>Showing {rooms.length} of {totalCount} rooms</>
                     )}
                 </p>
                 <p className="text-sm text-muted-foreground">
