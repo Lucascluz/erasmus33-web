@@ -12,6 +12,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Trash, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
 interface House {
     id: string;
@@ -261,6 +262,39 @@ export default function EditRoomPage() {
         }
     };
 
+    const handleDeleteRoom = async () => {
+        // Delete the room and its images
+        try {
+            const supabase = createClient();
+            const { error } = await supabase.from("rooms").delete().eq("id", roomId);
+
+            if (error) {
+                throw new Error(error.message);
+            }
+
+            formData.images.forEach(async (imageUrl) => {
+
+                // Extract the image ID from the URL
+                const imageId = imageUrl.split("/").pop();
+                if (imageId) {
+                    const { error: deleteImageError } = await supabase.storage.from("room_images").remove([`${roomId}/${imageId}`]);
+
+                    if (deleteImageError) {
+                        console.error("Failed to delete image:", deleteImageError.message);
+                    }
+                }
+            });
+
+            router.push("/admin/rooms");
+        } catch (err) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError("An unexpected error occurred.");
+            }
+        }
+    };
+
     if (loadingRoom) {
         return (
             <div className="min-h-screen bg-background flex items-center justify-center">
@@ -474,9 +508,47 @@ export default function EditRoomPage() {
                             </div>
                         )}
 
-                        <Button type="submit" disabled={loading} className="w-full">
-                            {loading ? "Updating..." : "Update Room"}
-                        </Button>
+                        <div className="flex space-x-4 mt-4">
+                            <Button type="submit" disabled={loading} className="flex-1">
+                                {loading ? "Saving..." : "Save Changes"}
+                            </Button>
+                            <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                    <Button variant="destructive" disabled={loading} className="w-32">
+                                        Delete
+                                    </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            This action cannot be undone. This will permanently delete this house and remove its data from the servers.
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                        <AlertDialog>
+                                            <AlertDialogTrigger asChild>
+                                                <Button variant="destructive" disabled={loading} className="w-32">
+                                                    I&apos;m Aware
+                                                </Button>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                    <AlertDialogTitle>Confirm Deletition</AlertDialogTitle>
+                                                </AlertDialogHeader>
+                                                <AlertDialogFooter>
+                                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                    <AlertDialogAction onClick={handleDeleteRoom} className="bg-red-600 text-white hover:bg-red-700">
+                                                        Delete
+                                                    </AlertDialogAction>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        </div>
                     </form>
                 </CardContent>
             </Card>

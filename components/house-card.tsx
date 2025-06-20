@@ -41,12 +41,6 @@ export function HouseCard({ house }: HouseCardProps) {
             </div>
           </div>
         )}
-        {house.floor && (
-          <Badge className="absolute top-3 right-3 bg-background/80 text-foreground border">
-            <Home className="w-3 h-3 mr-1" />
-            Floor {house.floor}
-          </Badge>
-        )}
       </div>
 
       <CardHeader className="pb-4">
@@ -70,7 +64,7 @@ export function HouseCard({ house }: HouseCardProps) {
           </Link>
         </Button>
         <Button asChild variant="outline" className="w-full">
-          <Link href={`/protected/rooms?house_id=${house.id}`}>
+          <Link href={`/protected/rooms?search=${house.number}`}>
             <BedDouble className="w-4 h-4 mr-2" />
             Ver Rooms Disponíveis
           </Link>
