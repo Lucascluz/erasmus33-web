@@ -74,7 +74,7 @@ export function HouseDetails({ house }: HouseDetailsProps) {
                 {/* Sidebar */}
                 <div className="space-y-6">
 
-                    {/* Additional Actions */}
+                    {/* Quick Actions */}
                     <Card>
                         <CardHeader>
                             <CardTitle>Quick Actions</CardTitle>
@@ -87,8 +87,8 @@ export function HouseDetails({ house }: HouseDetailsProps) {
                             </Button>
 
                             <Button variant="outline" className="w-full" asChild>
-                                <Link href="/protected/rooms">
-                                    Browse Rooms
+                                <Link href={`/protected/rooms?search=${house.number}`}>
+                                    House {house.number} Rooms
                                 </Link>
                             </Button>
                         </CardContent>
