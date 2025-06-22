@@ -85,7 +85,7 @@ export function HouseDetails({ house }: HouseDetailsProps) {
                                     View More Houses
                                 </Link>
                             </Button>
-
+cod
                             <Button variant="outline" className="w-full" asChild>
                                 <Link href={`/protected/rooms?search=${house.number}`}>
                                     House {house.number} Rooms
