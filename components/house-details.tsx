@@ -85,10 +85,9 @@ export function HouseDetails({ house }: HouseDetailsProps) {
                                     View More Houses
                                 </Link>
                             </Button>
-cod
-                            <Button variant="outline" className="w-full" asChild>
+                            <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white" asChild>
                                 <Link href={`/protected/rooms?search=${house.number}`}>
-                                    House {house.number} Rooms
+                                    Rooms on House {house.number}
                                 </Link>
                             </Button>
                         </CardContent>

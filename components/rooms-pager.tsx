@@ -36,10 +36,10 @@ async function getRooms(
 
         if (isNumeric) {
             const numericTerm = parseInt(searchTerm);
-            query = query.or(`house_number.eq.${numericTerm},number.eq.${numericTerm},type.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`);
+            query = query.or(`house_number.eq.${searchTerm},number.eq.${numericTerm},type.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`);
         } else {
             // For non-numeric searches, only search in text fields
-            query = query.or(`type.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`);
+            query = query.or(`house_number.eq.${searchTerm},type.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`);
         }
     }
 

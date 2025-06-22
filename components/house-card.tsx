@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MapPin, Home, BedDouble } from "lucide-react";
 
@@ -60,13 +59,13 @@ export function HouseCard({ house }: HouseCardProps) {
       <CardFooter className="pt-0 flex flex-col gap-3">
         <Button asChild className="w-full">
           <Link href={`/protected/houses/${house.id}`}>
-            Ver Detalhes
+            House Details
           </Link>
         </Button>
-        <Button asChild variant="outline" className="w-full">
+        <Button asChild className="w-full bg-blue-500 text-white hover:bg-blue-600">
           <Link href={`/protected/rooms?search=${house.number}`}>
             <BedDouble className="w-4 h-4 mr-2" />
-            Ver Rooms Disponíveis
+            Available Rooms
           </Link>
         </Button>
       </CardFooter>

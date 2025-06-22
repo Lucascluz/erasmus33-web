@@ -18,7 +18,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
-import { ArrowLeft, Calendar, Euro, Bed, CheckCircle, XCircle, Mail, MessageCircle, FileText, Clock, Shield } from "lucide-react";
+import { ArrowLeft, Calendar, Euro, CheckCircle, XCircle, Mail, MessageCircle, FileText, Clock, Shield } from "lucide-react";
 import { ImageGallery } from "@/components/image-gallery";
 
 interface RoomDetailsProps {

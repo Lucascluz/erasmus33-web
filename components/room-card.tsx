@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Bed, Euro, BedIcon } from "lucide-react";
+import { Bed, Euro, House } from "lucide-react";
 
 interface RoomCardProps {
     room: Room;
@@ -34,7 +34,7 @@ export function RoomCard({ room }: RoomCardProps) {
                 ) : (
                     <div className="w-full h-full bg-muted flex items-center justify-center">
                         <div className="text-center text-muted-foreground">
-                            <BedIcon className="w-16 h-16 mx-auto mb-3 opacity-50" />
+                            <Bed className="w-16 h-16 mx-auto mb-3 opacity-50" />
                             <p className="text-base font-medium">Sem imagens disponíveis</p>
                         </div>
                     </div>
@@ -81,12 +81,13 @@ export function RoomCard({ room }: RoomCardProps) {
             <CardFooter className="pt-0 flex flex-col gap-3">
                 <Button asChild className="w-full">
                     <Link href={`/protected/rooms/${room.id}`}>
-                        View Details
+                        <Bed className="w-4 h-4 mr-2" />
+                        Rom Details
                     </Link>
                 </Button>
                 <Button asChild variant="outline" className="w-full">
                     <Link href={`/protected/houses/${room.house_number}`}>
-                        <BedIcon className="w-4 h-4 mr-2" />
+                        <House className="w-4 h-4 mr-2" />
                         View House
                     </Link>
                 </Button>
