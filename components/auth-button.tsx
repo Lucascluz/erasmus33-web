@@ -1,35 +1,27 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { createClient } from "@/lib/supabase/server";
 import { UserDropdown } from "./user-dropdown";
+import type { User } from "@supabase/supabase-js";
 
-export async function AuthButton() {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+interface Profile {
+    role: string;
+    first_name: string;
+    profile_picture: string | null;
+}
 
-    let profile = null;
-    if (user) {
-        const { data } = await supabase
-            .from("profiles")
-            .select("role, first_name, picture_url")
-            .eq("user_id", user.id)
-            .single();
+interface AuthButtonProps {
+    user: User | null;
+    profile: Profile | null;
+}
 
-        if (data) {
-            profile = {
-                role: data.role,
-                first_name: data.first_name,
-                profile_picture: data.picture_url,
-            };
-        }
-    }
+export function AuthButton({ user, profile }: AuthButtonProps) {
 
     return user && profile ? (
         <div className="flex items-center gap-4">
             <UserDropdown
                 firstName={profile.first_name}
                 role={profile.role}
-                profilePicture={profile.profile_picture}
+                profilePicture={profile.profile_picture ?? undefined}
             />
         </div>
     ) : (

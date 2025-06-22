@@ -43,7 +43,7 @@ export default function RootLayout({
           {children}
           <footer className="w-full flex flex-col relative">
             {/* Bottom Layer */}
-            <div className="w-full h-10 z-0" style={{ backgroundImage: 'url(/assets/misc/faixa.png)', backgroundSize: 'cover', position: 'absolute', top: 0, left: 0 }}></div>
+            <div className="w-full h-16 z-0" style={{ backgroundImage: 'url(/assets/misc/faixa.png)', backgroundSize: 'cover', position: 'absolute', top: 0, left: 0 }}></div>
 
             {/* Top Layer */}
             <div className="w-full flex justify-center border-t border-t-foreground/10 h-16 bg-background/80 backdrop-blur-sm shadow-md z-10 relative">
