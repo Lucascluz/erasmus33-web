@@ -77,8 +77,8 @@ export async function RoomsPager({ page, search }: RoomsPagerProps) {
                     <h3 className="text-lg font-semibold">No rooms found</h3>
                     <p className="text-muted-foreground">
                         {search
-                            ? `Tente buscar com outros termos ou verifique a ortografia.`
-                            : "Volte mais tarde para ver novas listagens."
+                            ? `Try searching with different terms or check your spelling.`
+                            : "Come back later to see new listings."
                         }
                     </p>
                 </div>

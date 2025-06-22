@@ -76,12 +76,12 @@ export function RoomsPaginationControls({
                 {hasPrevPage ? (
                     <Link href={createPageUrl(currentPage - 1)}>
                         <ChevronLeft className="w-4 h-4 mr-1" />
-                        Anterior
+                        Previous
                     </Link>
                 ) : (
                     <>
                         <ChevronLeft className="w-4 h-4 mr-1" />
-                        Anterior
+                        Previous
                     </>
                 )}
             </Button>
@@ -127,12 +127,12 @@ export function RoomsPaginationControls({
             >
                 {hasNextPage ? (
                     <Link href={createPageUrl(currentPage + 1)}>
-                        Próximo
+                        Next
                         <ChevronRight className="w-4 h-4 ml-1" />
                     </Link>
                 ) : (
                     <>
-                        Próximo
+                        Next
                         <ChevronRight className="w-4 h-4 ml-1" />
                     </>
                 )}

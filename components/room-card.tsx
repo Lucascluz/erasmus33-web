@@ -35,7 +35,7 @@ export function RoomCard({ room }: RoomCardProps) {
                     <div className="w-full h-full bg-muted flex items-center justify-center">
                         <div className="text-center text-muted-foreground">
                             <Bed className="w-16 h-16 mx-auto mb-3 opacity-50" />
-                            <p className="text-base font-medium">Sem imagens disponíveis</p>
+                            <p className="text-base font-medium">No images available</p>
                         </div>
                     </div>
                 )}

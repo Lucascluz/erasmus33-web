@@ -64,12 +64,12 @@ export async function HousesPager({ page, search }: HousesPagerProps) {
       <div className="flex flex-col items-center justify-center py-12">
         <div className="text-center space-y-4">
           <h3 className="text-lg font-semibold">
-            {search ? "Nenhuma house encontrada" : "Nenhuma house disponível"}
+            {search ? "No houses found" : "No houses available"}
           </h3>
           <p className="text-muted-foreground">
             {search
-              ? `Tente buscar com outros termos ou verifique a ortografia.`
-              : "Volte mais tarde para ver novas listagens."
+              ? `Try searching with different terms or check your spelling.`
+              : "Come back later to see new listings."
             }
           </p>
         </div>

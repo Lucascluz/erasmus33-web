@@ -83,7 +83,7 @@ export function HousesSearch({ defaultValue = "" }: HousesSearchProps) {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <Input
                 type="text"
-                placeholder="Pesquisar por endereço, rua ou número..."
+                placeholder="Search by address, street or number..."
                 value={searchTerm}
                 onChange={handleInputChange}
                 className="pl-10 pr-10"

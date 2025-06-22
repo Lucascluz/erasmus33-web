@@ -83,7 +83,7 @@ export function RoomsSearch({ defaultValue = "" }: RoomsSearchProps) {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <Input
                 type="text"
-                placeholder="Pesquisar por house, tipo de room ou número..."
+                placeholder="Search by house, room type or number..."
                 value={searchTerm}
                 onChange={handleInputChange}
                 className="pl-10 pr-10"
