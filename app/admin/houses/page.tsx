@@ -92,8 +92,8 @@ export default function HousesManagementPage() {
                                 />
                             </div>
                             <Link href="/admin/houses/new">
-                                <Button variant="default" size="lg" className="flex items-center gap-2 bg-blue-500 text-white hover:bg-blue-600">
-                                    <Plus className="h-10 w-10" />
+                                <Button variant="default" size="sm" className="flex items-center gap-2">
+                                    <Plus className="h-4 w-4" />
                                     Add New House
                                 </Button>
                             </Link>

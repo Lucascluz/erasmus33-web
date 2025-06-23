@@ -28,7 +28,7 @@ export function SignUpForm({
   const [phoneNumber, setPhoneNumber] = useState("");
   const [country, setCountry] = useState("");
   const [preferredLanguage, setPreferredLanguage] = useState("");
-  const [profilePicture, setProfilePicture] = useState<File | null>(null);
+
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -60,19 +60,6 @@ export function SignUpForm({
       const userId = data.user?.id;
       if (!userId) throw new Error("Failed to retrieve user ID.");
 
-      let profilePictureUrl = "";
-      if (profilePicture) {
-        const { data: uploadData, error: uploadError } = await supabase.storage
-          .from("profile_pictures")
-          .upload(`public/${userId}`, profilePicture);
-
-        if (uploadError) throw uploadError;
-
-        profilePictureUrl = supabase.storage
-          .from("profile_pictures")
-          .getPublicUrl(uploadData?.path || "").data?.publicUrl || "";
-      }
-
       const { error: profileError } = await supabase.from("profiles").insert({
         user_id: userId,
         first_name: firstName,
@@ -82,7 +69,6 @@ export function SignUpForm({
         preferred_language: preferredLanguage,
         role: "user",
         email: email,
-        picture_url: profilePictureUrl,
         is_active: false,
       });
 
@@ -193,19 +179,6 @@ export function SignUpForm({
                   required
                   value={repeatPassword}
                   onChange={(e) => setRepeatPassword(e.target.value)}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="profile-picture">Profile Picture</Label>
-                <Input
-                  id="profile-picture"
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    if (e.target.files && e.target.files.length > 0) {
-                      setProfilePicture(e.target.files[0]);
-                    }
-                  }}
                 />
               </div>
             </div>

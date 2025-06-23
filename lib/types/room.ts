@@ -7,6 +7,7 @@ export default interface Room {
     spots: number;
     is_available: boolean;
     images: string[];
+    main_image: string;
     house_id: string;
     house_number: string;
     number: string;

@@ -7,10 +7,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { v4 as uuidv4 } from "uuid";
 import { Textarea } from "@/components/ui/textarea";
-import { Trash } from "lucide-react";
-import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import { AdminImageManager } from "@/components/admin-image-manager";
 
 export default function NewHousePage() {
     const [formData, setFormData] = useState({
@@ -18,6 +20,7 @@ export default function NewHousePage() {
         street: "",
         postal_code: "",
         description: "",
+        is_active: true,
     });
 
     const [newImages, setNewImages] = useState<File[]>([]);
@@ -121,6 +124,7 @@ export default function NewHousePage() {
                 postal_code: formData.postal_code.trim(),
                 description: formData.description.trim(),
                 images: uploadedImageUrls,
+                is_active: formData.is_active,
             });
 
             if (insertError) {
@@ -140,7 +144,16 @@ export default function NewHousePage() {
         <div className="min-h-screen bg-background flex items-center justify-center px-8 md:px-12 lg:px-20 xl:px-32">
             <Card className="w-full max-w-4xl">
                 <CardContent className="p-6">
-                    <h1 className="text-2xl font-bold mb-4">Create New House</h1>
+                    <div className="flex items-center gap-4 mb-6">
+                        <Link href="/admin/houses">
+                            <Button variant="outline" size="sm" className="flex items-center gap-2">
+                                <ArrowLeft className="h-4 w-4" />
+                                Back to Houses
+                            </Button>
+                        </Link>
+                        <h1 className="text-2xl font-bold">Create New House</h1>
+                    </div>
+
                     {error && <p className="text-red-600 mb-4">{error}</p>}
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -180,56 +193,45 @@ export default function NewHousePage() {
                                     placeholder="Enter postal code"
                                 />
                             </div>
-                            <div>
-                                <Label htmlFor="description">Description</Label>
-                                <Textarea
-                                    id="description"
-                                    name="description"
-                                    value={formData.description}
-                                    onChange={handleTextareaChange}
-                                    disabled={loading}
-                                    placeholder="Enter house description"
-                                    rows={4}
-                                />
-                            </div>
-                        </div>
-                        <div>
-                            <Label htmlFor="images">House Images</Label>
-                            <input
-                                id="images"
-                                name="images"
-                                type="file"
-                                multiple
-                                accept="image/*"
-                                ref={fileInputRef}
-                                onChange={handleImageAdd}
-                                disabled={loading}
-                                className="block w-full text-sm text-muted-foreground border border-input rounded-md cursor-pointer focus:outline-none"
-                            />
+
                         </div>
 
                         <div>
-                            <div className="flex flex-wrap gap-4">
-                                {newImages.map((image) => (
-                                    <div key={image.name} className="relative">
-                                        <Image
-                                            src={URL.createObjectURL(image)}
-                                            alt="New House Image"
-                                            width={128}
-                                            height={128}
-                                            className="w-32 h-32 object-cover rounded-md shadow-md"
-                                        />
-                                        <Button
-                                            variant="destructive"
-                                            className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white"
-                                            onClick={() => setNewImages((prev) => prev.filter((img) => img !== image))}
-                                        >
-                                            <Trash className="w-6 h-6" />
-                                        </Button>
-                                    </div>
-                                ))}
-                            </div>
+                            <Label htmlFor="description">Description</Label>
+                            <Textarea
+                                id="description"
+                                name="description"
+                                value={formData.description}
+                                onChange={handleTextareaChange}
+                                disabled={loading}
+                                placeholder="Enter house description"
+                                rows={4}
+                            />
                         </div>
+
+                        <div className="flex items-center space-x-2">
+                            <Checkbox
+                                id="is_active"
+                                checked={formData.is_active}
+                                onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_active: checked as boolean }))}
+                                disabled={loading}
+                            />
+                            <Label htmlFor="is_active" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                House is active
+                            </Label>
+                        </div>
+
+                        <AdminImageManager
+                            currentImages={[]}
+                            newImages={newImages}
+                            onImageAdd={handleImageAdd}
+                            onDeleteCurrentImage={() => { }} // No current images in new page
+                            onDeleteNewImage={(index) => setNewImages((prev) => prev.filter((_, i) => i !== index))}
+                            disabled={loading}
+                            label="House Images"
+                            placeholder="House Images"
+                            entityType="house"
+                        />
 
                         <Button type="submit" disabled={loading} className="w-full">
                             {loading ? "Creating..." : "Create House"}

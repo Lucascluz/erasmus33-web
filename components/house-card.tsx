@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { MapPin, Home, BedDouble } from "lucide-react";
 
 interface HouseCardProps {
@@ -22,8 +23,16 @@ export function HouseCard({ house }: HouseCardProps) {
   const address = `${house.street} ${house.number}, ${house.postal_code}`;
 
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200 h-full">
+    <Card className={`overflow-hidden hover:shadow-lg transition-shadow duration-200 h-full ${!house.is_active ? 'opacity-75' : ''}`}>
       <div className="relative aspect-[4/3]">
+        {!house.is_active && (
+          <Badge
+            variant="destructive"
+            className="absolute top-2 right-2 z-10"
+          >
+            Inactive
+          </Badge>
+        )}
         {mainImage ? (
           <Image
             src={mainImage}

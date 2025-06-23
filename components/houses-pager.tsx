@@ -8,9 +8,10 @@ const HOUSES_PER_PAGE = 9;
 interface HousesPagerProps {
   page: number;
   search?: string;
+  showInactive?: boolean;
 }
 
-async function getHouses(page: number, search?: string): Promise<{
+async function getHouses(page: number, search?: string, showInactive: boolean = false): Promise<{
   houses: House[];
   totalCount: number;
   hasNextPage: boolean;
@@ -24,6 +25,11 @@ async function getHouses(page: number, search?: string): Promise<{
   let query = supabase
     .from("houses")
     .select("*", { count: "exact" });
+
+  // Add active/inactive filter - by default only show active houses
+  if (!showInactive) {
+    query = query.eq("is_active", true);
+  }
 
   // Add search filter if search term is provided
   if (search && search.trim()) {
@@ -54,8 +60,8 @@ async function getHouses(page: number, search?: string): Promise<{
   };
 }
 
-export async function HousesPager({ page, search }: HousesPagerProps) {
-  const { houses, totalCount, hasNextPage, hasPrevPage } = await getHouses(page, search);
+export async function HousesPager({ page, search, showInactive = false }: HousesPagerProps) {
+  const { houses, totalCount, hasNextPage, hasPrevPage } = await getHouses(page, search, showInactive);
 
   const totalPages = Math.ceil(totalCount / HOUSES_PER_PAGE);
 

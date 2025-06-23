@@ -12,7 +12,7 @@ export async function Navbar() {
     if (user) {
         const { data } = await supabase
             .from("profiles")
-            .select("role, first_name, picture_url")
+            .select("role, first_name, last_name")
             .eq("user_id", user.id)
             .single();
 
@@ -20,7 +20,7 @@ export async function Navbar() {
             profile = {
                 role: data.role,
                 first_name: data.first_name,
-                profile_picture: data.picture_url,
+                last_name: data.last_name,
             };
         }
     }

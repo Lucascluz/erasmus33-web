@@ -21,7 +21,6 @@ import {
 import Link from "next/link";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useEffect, useState, useMemo } from "react";
-import Image from "next/image";
 
 interface UserProfile {
     user_id: string;
@@ -32,7 +31,6 @@ interface UserProfile {
     last_name: string;
     phone_number: string;
     email: string;
-    picture_url: string;
     is_active: boolean;
     created_at?: string;
 }
@@ -261,19 +259,9 @@ export default function UsersManagementPage() {
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-4">
                                         <Avatar className="h-12 w-12 bg-primary text-primary-foreground">
-                                            {user.picture_url ? (
-                                                <Image
-                                                    src={user.picture_url}
-                                                    alt={`${user.first_name} ${user.last_name}`}
-                                                    width={48}
-                                                    height={48}
-                                                    className="h-full w-full object-cover"
-                                                />
-                                            ) : (
-                                                <span className="text-sm font-semibold">
-                                                    {getUserInitials(user.first_name, user.last_name)}
-                                                </span>
-                                            )}
+                                            <span className="text-sm font-semibold">
+                                                {getUserInitials(user.first_name, user.last_name)}
+                                            </span>
                                         </Avatar>
 
                                         <div className="flex-1">

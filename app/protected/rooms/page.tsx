@@ -6,11 +6,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default async function RoomsPage({
     searchParams,
 }: {
-    searchParams: Promise<{ page?: string; search?: string }>;
+    searchParams: Promise<{ page?: string; search?: string; show_unavailable?: string }>;
 }) {
     const resolvedSearchParams = await searchParams;
     const page = parseInt(resolvedSearchParams.page || "1", 10);
     const search = resolvedSearchParams.search || "";
+    const showUnavailable = resolvedSearchParams.show_unavailable === "true";
 
     return (
         <div className="w-full">
@@ -19,12 +20,12 @@ export default async function RoomsPage({
                     <h1 className="text-3xl font-bold">Rooms</h1>
                 </div>
 
-                <div className="w-full max-w-2xl">
-                    <RoomsSearch defaultValue={search} />
+                <div className="w-full">
+                    <RoomsSearch defaultValue={search} defaultShowUnavailable={showUnavailable} />
                 </div>
 
                 <Suspense
-                    key={`${page}-${search}`}
+                    key={`${page}-${search}-${showUnavailable}`}
                     fallback={
                         <div className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -47,7 +48,7 @@ export default async function RoomsPage({
                         </div>
                     }
                 >
-                    <RoomsPager page={page} search={search} />
+                    <RoomsPager page={page} search={search} showUnavailable={showUnavailable} />
                 </Suspense>
             </div>
         </div>

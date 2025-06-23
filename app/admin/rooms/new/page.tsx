@@ -9,9 +9,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { v4 as uuidv4 } from "uuid";
 import { Textarea } from "@/components/ui/textarea";
-import { Trash, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
+import { AdminImageManager } from "@/components/admin-image-manager";
 
 interface House {
     id: string;
@@ -279,6 +279,19 @@ export default function NewRoomPage() {
                                     placeholder="Number of spots"
                                 />
                             </div>
+
+                            <div className="flex items-center space-x-2">
+                                <input
+                                    id="is_available"
+                                    name="is_available"
+                                    type="checkbox"
+                                    checked={formData.is_available}
+                                    onChange={handleInputChange}
+                                    disabled={loading}
+                                    className="rounded border-input"
+                                />
+                                <Label htmlFor="is_available">Room is available for rent</Label>
+                            </div>
                         </div>
 
                         <div>
@@ -294,58 +307,17 @@ export default function NewRoomPage() {
                             />
                         </div>
 
-                        <div className="flex items-center space-x-2">
-                            <input
-                                id="is_available"
-                                name="is_available"
-                                type="checkbox"
-                                checked={formData.is_available}
-                                onChange={handleInputChange}
-                                disabled={loading}
-                                className="rounded border-input"
-                            />
-                            <Label htmlFor="is_available">Room is available for rent</Label>
-                        </div>
-
-                        <div>
-                            <Label htmlFor="images">Room Images</Label>
-                            <input
-                                id="images"
-                                name="images"
-                                type="file"
-                                multiple
-                                accept="image/*"
-                                ref={fileInputRef}
-                                onChange={handleImageAdd}
-                                disabled={loading}
-                                className="block w-full text-sm text-muted-foreground border border-input rounded-md cursor-pointer focus:outline-none"
-                            />
-                        </div>
-
-                        <div>
-                            <div className="flex flex-wrap gap-4">
-                                {newImages.map((image) => (
-                                    <div key={image.name} className="relative">
-                                        <Image
-                                            src={URL.createObjectURL(image)}
-                                            width={128}
-                                            height={128}
-                                            alt="New Room Image"
-                                            className="w-32 h-32 object-cover rounded-md shadow-md"
-                                        />
-                                        <Button
-                                            type="button"
-                                            variant="destructive"
-                                            size="sm"
-                                            className="absolute top-1 right-1"
-                                            onClick={() => setNewImages((prev) => prev.filter((img) => img !== image))}
-                                        >
-                                            <Trash className="w-4 h-4" />
-                                        </Button>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+                        <AdminImageManager
+                            currentImages={[]}
+                            newImages={newImages}
+                            onImageAdd={handleImageAdd}
+                            onDeleteCurrentImage={() => { }} // No current images in new page
+                            onDeleteNewImage={(index) => setNewImages((prev) => prev.filter((_, i) => i !== index))}
+                            disabled={loading}
+                            label="Room Images"
+                            placeholder="Room Images"
+                            entityType="room"
+                        />
 
                         <Button type="submit" disabled={loading} className="w-full">
                             {loading ? "Creating..." : "Create Room"}

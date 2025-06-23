@@ -8,11 +8,13 @@ const ROOMS_PER_PAGE = 9;
 interface RoomsPagerProps {
     page: number;
     search?: string;
+    showUnavailable?: boolean;
 }
 
 async function getRooms(
     page: number,
-    search?: string
+    search?: string,
+    showUnavailable: boolean = false
 ): Promise<{
     rooms: Room[];
     totalCount: number;
@@ -27,6 +29,11 @@ async function getRooms(
     let query = supabase
         .from("rooms")
         .select("*", { count: "exact" });
+
+    // Add available/unavailable filter - by default only show available rooms
+    if (!showUnavailable) {
+        query = query.eq("is_available", true);
+    }
 
     // Add search filter if search term is provided
     if (search && search.trim()) {
@@ -65,8 +72,8 @@ async function getRooms(
     };
 }
 
-export async function RoomsPager({ page, search }: RoomsPagerProps) {
-    const { rooms, totalCount, hasNextPage, hasPrevPage } = await getRooms(page, search);
+export async function RoomsPager({ page, search, showUnavailable = false }: RoomsPagerProps) {
+    const { rooms, totalCount, hasNextPage, hasPrevPage } = await getRooms(page, search, showUnavailable);
 
     const totalPages = Math.ceil(totalCount / ROOMS_PER_PAGE);
 

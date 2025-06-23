@@ -130,7 +130,7 @@ export default function RoomsManagementPage() {
                         </Button>
                     </Link>
                     <div className="flex items-center gap-3">
-                        <Home className="h-8 w-8 text-primary" />
+                        <Bed className="h-8 w-8 text-primary" />
                         <div>
                             <h1 className="text-2xl font-bold">Room Management</h1>
                             <p className="text-sm text-muted-foreground">
@@ -202,8 +202,8 @@ export default function RoomsManagementPage() {
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                                 <Link href="/admin/rooms/new">
-                                    <Button variant="default" size="lg" className="flex items-center gap-2 bg-blue-500 text-white hover:bg-blue-600">
-                                        <Plus className="h-10 w-10" />
+                                    <Button variant="default" size="sm" className="flex items-center gap-2">
+                                        <Plus className="h-4 w-4" />
                                         Add New Room
                                     </Button>
                                 </Link>

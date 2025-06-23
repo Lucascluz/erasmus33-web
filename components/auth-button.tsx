@@ -6,7 +6,7 @@ import type { User } from "@supabase/supabase-js";
 interface Profile {
     role: string;
     first_name: string;
-    profile_picture: string | null;
+    last_name: string;
 }
 
 interface AuthButtonProps {
@@ -20,8 +20,8 @@ export function AuthButton({ user, profile }: AuthButtonProps) {
         <div className="flex items-center gap-4">
             <UserDropdown
                 firstName={profile.first_name}
+                lastName={profile.last_name}
                 role={profile.role}
-                profilePicture={profile.profile_picture ?? undefined}
             />
         </div>
     ) : (

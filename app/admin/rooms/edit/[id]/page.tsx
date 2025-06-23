@@ -9,10 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { v4 as uuidv4 } from "uuid";
-import { Trash, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { AdminImageManager } from "@/components/admin-image-manager";
 
 interface House {
     id: string;
@@ -325,7 +325,7 @@ export default function EditRoomPage() {
                                 Back to Rooms
                             </Button>
                         </Link>
-                        <h1 className="text-2xl font-bold">Edit Room</h1>
+                        <h1 className="text-2xl font-bold">Editing House{formData.house_number} - Room {formData.number}</h1>
                     </div>
 
                     {error && <p className="text-red-600 mb-4">{error}</p>}
@@ -405,6 +405,20 @@ export default function EditRoomPage() {
                                     placeholder="Number of spots"
                                 />
                             </div>
+
+                            <div className="flex items-center space-x-2">
+                                <input
+                                    id="is_available"
+                                    name="is_available"
+                                    type="checkbox"
+                                    checked={formData.is_available}
+                                    onChange={handleInputChange}
+                                    disabled={loading}
+                                    className="rounded border-input"
+                                />
+                                <Label htmlFor="is_available">Room is available for rent</Label>
+                            </div>
+
                         </div>
 
                         <div>
@@ -420,93 +434,17 @@ export default function EditRoomPage() {
                             />
                         </div>
 
-                        <div className="flex items-center space-x-2">
-                            <input
-                                id="is_available"
-                                name="is_available"
-                                type="checkbox"
-                                checked={formData.is_available}
-                                onChange={handleInputChange}
-                                disabled={loading}
-                                className="rounded border-input"
-                            />
-                            <Label htmlFor="is_available">Room is available for rent</Label>
-                        </div>
-
-                        <div>
-                            <Label htmlFor="images">Add New Images</Label>
-                            <input
-                                id="images"
-                                name="images"
-                                type="file"
-                                multiple
-                                accept="image/*"
-                                ref={fileInputRef}
-                                onChange={handleImageAdd}
-                                disabled={loading}
-                                className="block w-full text-sm text-muted-foreground border border-input rounded-md cursor-pointer focus:outline-none"
-                            />
-                        </div>
-
-                        {/* All Images Display - Current and New */}
-                        {(formData.images.length > 0 || newImages.length > 0) && (
-                            <div>
-                                <Label>Room Images</Label>
-                                <div className="flex flex-wrap gap-4 mt-2">
-                                    {/* Current Images */}
-                                    {formData.images.map((imageUrl, index) => (
-                                        <div key={`current-${index}`} className="relative">
-                                            <Image
-                                                src={imageUrl}
-                                                alt={`Current Room Image ${index + 1}`}
-                                                width={128}
-                                                height={128}
-                                                className="w-32 h-32 object-cover rounded-md shadow-md"
-                                            />
-                                            <Button
-                                                type="button"
-                                                variant="destructive"
-                                                size="sm"
-                                                className="absolute top-1 right-1"
-                                                onClick={() => handleDeleteExistingImage(imageUrl)}
-                                                disabled={loading}
-                                            >
-                                                <Trash className="w-4 h-4" />
-                                            </Button>
-                                            <div className="absolute bottom-1 left-1 bg-blue-500 text-white text-xs px-1 rounded">
-                                                Current
-                                            </div>
-                                        </div>
-                                    ))}
-
-                                    {/* New Images */}
-                                    {newImages.map((image, index) => (
-                                        <div key={`new-${index}`} className="relative">
-                                            <Image
-                                                src={URL.createObjectURL(image)}
-                                                alt={`New Room Image ${index + 1}`}
-                                                width={128}
-                                                height={128}
-                                                className="w-32 h-32 object-cover rounded-md shadow-md"
-                                            />
-                                            <Button
-                                                type="button"
-                                                variant="destructive"
-                                                size="sm"
-                                                className="absolute top-1 right-1"
-                                                onClick={() => setNewImages((prev) => prev.filter((_, i) => i !== index))}
-                                                disabled={loading}
-                                            >
-                                                <Trash className="w-4 h-4" />
-                                            </Button>
-                                            <div className="absolute bottom-1 left-1 bg-green-500 text-white text-xs px-1 rounded">
-                                                New
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
+                        <AdminImageManager
+                            currentImages={formData.images}
+                            newImages={newImages}
+                            onImageAdd={handleImageAdd}
+                            onDeleteCurrentImage={handleDeleteExistingImage}
+                            onDeleteNewImage={(index) => setNewImages((prev) => prev.filter((_, i) => i !== index))}
+                            disabled={loading}
+                            label="Room Images"
+                            placeholder="Add New Images"
+                            entityType="room"
+                        />
 
                         <div className="flex space-x-4 mt-4">
                             <Button type="submit" disabled={loading} className="flex-1">

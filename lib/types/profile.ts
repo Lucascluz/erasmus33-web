@@ -7,6 +7,5 @@ export default interface Profile {
     last_name: string;
     phone_number: string;
     email: string;
-    picture_url: string;
     is_active: boolean;
 }

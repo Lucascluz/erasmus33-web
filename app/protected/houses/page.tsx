@@ -6,11 +6,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default async function HousesPage({
     searchParams,
 }: {
-    searchParams: Promise<{ page?: string; search?: string }>;
+    searchParams: Promise<{ page?: string; search?: string; show_inactive?: string }>;
 }) {
     const resolvedSearchParams = await searchParams;
     const page = parseInt(resolvedSearchParams.page || "1", 10);
     const search = resolvedSearchParams.search || "";
+    const showInactive = resolvedSearchParams.show_inactive === "true";
 
     return (
         <div className="w-full">
@@ -20,11 +21,11 @@ export default async function HousesPage({
                 </div>
 
                 <div className="w-full max-w-2xl">
-                    <HousesSearch defaultValue={search} />
+                    <HousesSearch defaultValue={search} defaultShowInactive={showInactive} />
                 </div>
 
                 <Suspense
-                    key={`${page}-${search}`}
+                    key={`${page}-${search}-${showInactive}`}
                     fallback={
                         <div className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -47,7 +48,7 @@ export default async function HousesPage({
                         </div>
                     }
                 >
-                    <HousesPager page={page} search={search} />
+                    <HousesPager page={page} search={search} showInactive={showInactive} />
                 </Suspense>
             </div>
         </div>

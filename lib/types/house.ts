@@ -7,5 +7,6 @@ export default interface House {
     floor: number;
     description: string;
     images: string[];
+    main_image: string;
     is_active: boolean;
 }

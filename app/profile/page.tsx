@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { redirect } from "next/navigation";
 import Profile from "@/lib/types/profile"; // Corrected import
@@ -55,7 +55,6 @@ export default async function ProfilePage() {
             <div className="max-w-2xl mx-auto">
                 <div className="flex flex-col items-center mb-8">
                     <Avatar className="w-32 h-32 mb-4 border-4 border-primary/20 shadow-lg">
-                        <AvatarImage src={profile.picture_url || undefined} alt={`${profile.first_name} ${profile.last_name}`} />
                         <AvatarFallback className="text-4xl bg-muted">
                             {getInitials(profile.first_name, profile.last_name)}
                         </AvatarFallback>

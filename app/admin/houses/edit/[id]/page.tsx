@@ -7,10 +7,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogAction, AlertDialogCancel, AlertDialogTitle, AlertDialogDescription } from "@/components/ui/alert-dialog";
 import { v4 as uuidv4 } from "uuid";
-import ImageList from "@/components/image-list";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { AdminImageManager } from "@/components/admin-image-manager";
 
 export default function EditHousePage() {
     const [formData, setFormData] = useState({
@@ -19,6 +22,7 @@ export default function EditHousePage() {
         postal_code: "",
         description: "",
         images: [] as string[],
+        is_active: true,
     });
 
     const [newImages, setNewImages] = useState<File[]>([]);
@@ -54,6 +58,7 @@ export default function EditHousePage() {
                     postal_code: data.postal_code || "",
                     description: data.description || "",
                     images: data.images || [],
+                    is_active: data.is_active ?? true,
                 });
             } catch (err) {
                 setError(err instanceof Error ? err.message : "An unexpected error occurred.");
@@ -164,6 +169,7 @@ export default function EditHousePage() {
                 street: formData.street.trim(),
                 postal_code: formData.postal_code.trim(),
                 description: formData.description.trim(),
+                is_active: formData.is_active,
             }).eq("id", houseId);
 
             if (updateError) {
@@ -217,7 +223,15 @@ export default function EditHousePage() {
         <div className="min-h-screen bg-background flex items-center justify-center px-8 md:px-12 lg:px-20 xl:px-32">
             <Card className="w-full max-w-4xl">
                 <CardContent className="p-6">
-                    <h1 className="text-2xl font-bold mb-4">Edit House</h1>
+                    <div className="flex items-center gap-4 mb-6">
+                        <Link href="/admin/houses">
+                            <Button variant="outline" size="sm" className="flex items-center gap-2">
+                                <ArrowLeft className="h-4 w-4" />
+                                Back to Houses
+                            </Button>
+                        </Link>
+                        <h1 className="text-2xl font-bold">Editing House {formData.number}</h1>
+                    </div>
                     {error && <p className="text-red-600 mb-4">{error}</p>}
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -269,27 +283,30 @@ export default function EditHousePage() {
                                 />
                             </div>
                         </div>
-                        <div>
-                            <Label htmlFor="images">Upload Images</Label>
-                            <Input
-                                id="images"
-                                name="images"
-                                type="file"
-                                multiple
-                                ref={fileInputRef}
-                                onChange={handleImageAdd}
+
+                        <div className="flex items-center space-x-2">
+                            <Checkbox
+                                id="is_active"
+                                checked={formData.is_active}
+                                onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_active: checked as boolean }))}
                                 disabled={loading}
                             />
+                            <Label htmlFor="is_active" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                House is active
+                            </Label>
                         </div>
 
-                        <div>
-                            <ImageList
-                                formDataImages={formData.images}
-                                newImages={newImages}
-                                onDeleteFormDataImage={handleImageRemove}
-                                onDeleteNewImage={(image) => setNewImages((prev) => prev.filter((img) => img !== image))}
-                            />
-                        </div>
+                        <AdminImageManager
+                            currentImages={formData.images}
+                            newImages={newImages}
+                            onImageAdd={handleImageAdd}
+                            onDeleteCurrentImage={handleImageRemove}
+                            onDeleteNewImage={(index) => setNewImages((prev) => prev.filter((_, i) => i !== index))}
+                            disabled={loading}
+                            label="House Images"
+                            placeholder="Upload Images"
+                            entityType="house"
+                        />
 
                         <div className="flex space-x-4 mt-4">
                             <Button type="submit" disabled={loading} className="flex-1">

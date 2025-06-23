@@ -202,8 +202,8 @@ export default function Home() {
         <Image
           src="/assets/misc/textured-mulberry-paper.jpg"
           alt="Map background"
-          layout="fill"
-          objectFit="cover"
+          fill
+          className="object-cover"
         />
         <div className="relative z-10 max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Start Your Adventure?</h2>
