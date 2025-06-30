@@ -18,7 +18,7 @@ interface HouseCardProps {
 }
 
 export function HouseCard({ house }: HouseCardProps) {
-  const mainImage = house.images?.[0];
+  const mainImage = house.main_image || house.images?.[0];
   const name = `House ${house.number}`
   const address = `${house.street} ${house.number}, ${house.postal_code}`;
 

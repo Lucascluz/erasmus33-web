@@ -21,6 +21,7 @@ export default function EditHousePage() {
         street: "",
         postal_code: "",
         description: "",
+        main_image: "",
         images: [] as string[],
         is_active: true,
     });
@@ -57,6 +58,7 @@ export default function EditHousePage() {
                     street: data.street || "",
                     postal_code: data.postal_code || "",
                     description: data.description || "",
+                    main_image: data.main_image || null,
                     images: data.images || [],
                     is_active: data.is_active ?? true,
                 });
@@ -163,6 +165,11 @@ export default function EditHousePage() {
             const allImages = [...existingImages, ...uploadedImageUrls];
 
             // Update the house data in the database
+            let mainImageToSave = formData.main_image;
+            if (!allImages.includes(mainImageToSave)) {
+                mainImageToSave = '';
+            }
+
             const { error: updateError } = await supabase.from("houses").update({
                 images: allImages,
                 number: formData.number,
@@ -170,6 +177,7 @@ export default function EditHousePage() {
                 postal_code: formData.postal_code.trim(),
                 description: formData.description.trim(),
                 is_active: formData.is_active,
+                main_image: mainImageToSave,
             }).eq("id", houseId);
 
             if (updateError) {
@@ -298,9 +306,11 @@ export default function EditHousePage() {
 
                         <AdminImageManager
                             currentImages={formData.images}
+                            onDeleteCurrentImage={handleImageRemove}
+                            mainImage={formData.main_image}
+                            onSetMainImage={(imageUrl) => setFormData(prev => ({ ...prev, main_image: imageUrl || '' }))}
                             newImages={newImages}
                             onImageAdd={handleImageAdd}
-                            onDeleteCurrentImage={handleImageRemove}
                             onDeleteNewImage={(index) => setNewImages((prev) => prev.filter((_, i) => i !== index))}
                             disabled={loading}
                             label="House Images"

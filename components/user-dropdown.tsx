@@ -3,7 +3,6 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
-import { Avatar, AvatarFallback } from "./ui/avatar";
 
 interface UserDropdownProps {
     firstName: string;
@@ -11,7 +10,7 @@ interface UserDropdownProps {
     role: string;
 }
 
-export function UserDropdown({ firstName, lastName, role }: UserDropdownProps) {
+export function UserDropdown({ firstName, role }: UserDropdownProps) {
     const router = useRouter();
 
     const handleLogout = async () => {
@@ -26,19 +25,9 @@ export function UserDropdown({ firstName, lastName, role }: UserDropdownProps) {
         }
     };
 
-    // Generate initials from first and last name
-    const getInitials = (firstName: string, lastName: string) => {
-        return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
-    };
-
     return (
         <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-2 p-2 rounded-md hover:bg-secondary/60 transition-colors">
-                <Avatar className="cursor-pointer">
-                    <AvatarFallback className="bg-primary text-primary-foreground">
-                        {getInitials(firstName, lastName)}
-                    </AvatarFallback>
-                </Avatar>
                 <p className="hidden md:block text-sm font-medium text-accent-foreground">
                     Hey, {firstName}!
                 </p>

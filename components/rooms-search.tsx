@@ -132,7 +132,7 @@ export function RoomsSearch({ defaultValue = "", defaultShowUnavailable = false 
                     htmlFor="show-inactive"
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                    Show inactive houses
+                    Show unavailable rooms
                 </Label>
             </div>
         </div>

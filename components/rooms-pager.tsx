@@ -38,27 +38,13 @@ async function getRooms(
     // Add search filter if search term is provided
     if (search && search.trim()) {
         const searchTerm = search.trim();
-        // Check if search term is numeric for house_number and number fields
-        const isNumeric = /^\d+$/.test(searchTerm);
-
-        if (isNumeric) {
-            const numericTerm = parseInt(searchTerm);
-            query = query.or(`house_number.eq.${searchTerm},number.eq.${numericTerm},type.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`);
-        } else {
-            // For non-numeric searches, only search in text fields
-            query = query.or(`house_number.eq.${searchTerm},type.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`);
-        }
+            query = query.or(`house_number.eq.${searchTerm},number.eq.${searchTerm}`);
     }
 
-    const { data: rooms, error, count } = await query
+    const { data: rooms, count } = await query
         .order("house_number", { ascending: true })
         .order("number", { ascending: true })
         .range(from, to);
-
-    if (error) {
-        console.error("Error fetching rooms:", error);
-        throw new Error("Failed to fetch rooms");
-    }
 
     const totalCount = count || 0;
     const hasNextPage = to < totalCount - 1;

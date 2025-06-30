@@ -31,6 +31,7 @@ export default function EditRoomPage() {
         house_id: "",
         house_number: "",
         images: [] as string[],
+        main_image: null as string | null,
     });
 
     const [houses, setHouses] = useState<House[]>([]);
@@ -78,6 +79,7 @@ export default function EditRoomPage() {
                     house_id: roomData.house_id || "",
                     house_number: roomData.house_number?.toString() || "",
                     images: roomData.images || [],
+                    main_image: roomData.main_image || null,
                 });
 
                 // Fetch houses
@@ -247,6 +249,7 @@ export default function EditRoomPage() {
                     house_id: formData.house_id,
                     house_number: formData.house_number,
                     images: allImages,
+                    main_image: formData.main_image || null,
                 })
                 .eq("id", roomId);
 
@@ -440,6 +443,8 @@ export default function EditRoomPage() {
                             onImageAdd={handleImageAdd}
                             onDeleteCurrentImage={handleDeleteExistingImage}
                             onDeleteNewImage={(index) => setNewImages((prev) => prev.filter((_, i) => i !== index))}
+                            mainImage={formData.main_image}
+                            onSetMainImage={(imageUrl) => setFormData(prev => ({ ...prev, main_image: imageUrl || null }))}
                             disabled={loading}
                             label="Room Images"
                             placeholder="Add New Images"

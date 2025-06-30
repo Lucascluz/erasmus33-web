@@ -18,7 +18,7 @@ interface RoomCardProps {
 }
 
 export function RoomCard({ room }: RoomCardProps) {
-    const mainImage = room.images?.[0];
+    const mainImage = room.main_image || room.images?.[0];
 
     return (
         <Card className={`overflow-hidden hover:shadow-lg transition-shadow duration-200 h-full ${!room.is_available ? 'opacity-75' : ''}`}>

@@ -24,6 +24,7 @@ export default function NewHousePage() {
     });
 
     const [newImages, setNewImages] = useState<File[]>([]);
+    const [mainImage, setMainImage] = useState<string | null>(null);
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -125,6 +126,7 @@ export default function NewHousePage() {
                 description: formData.description.trim(),
                 images: uploadedImageUrls,
                 is_active: formData.is_active,
+                main_image: mainImage || null,
             });
 
             if (insertError) {
@@ -226,7 +228,14 @@ export default function NewHousePage() {
                             newImages={newImages}
                             onImageAdd={handleImageAdd}
                             onDeleteCurrentImage={() => { }} // No current images in new page
-                            onDeleteNewImage={(index) => setNewImages((prev) => prev.filter((_, i) => i !== index))}
+                            onDeleteNewImage={(index) => {
+                                setNewImages((prev) => prev.filter((_, i) => i !== index));
+                                // If main image is deleted, set to null
+                                const url = URL.createObjectURL(newImages[index]);
+                                if (mainImage === url) setMainImage(null);
+                            }}
+                            mainImage={mainImage}
+                            onSetMainImage={setMainImage}
                             disabled={loading}
                             label="House Images"
                             placeholder="House Images"

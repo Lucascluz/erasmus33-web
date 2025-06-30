@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Trash } from "lucide-react";
+import { Trash, Star } from "lucide-react";
 
 interface AdminImageManagerProps {
     // Current images from database
@@ -19,6 +19,8 @@ interface AdminImageManagerProps {
     label?: string;
     placeholder?: string;
     entityType?: "house" | "room"; // For alt text
+    mainImage?: string | null;
+    onSetMainImage?: (imageUrl: string | null) => void;
 }
 
 export function AdminImageManager({
@@ -30,7 +32,9 @@ export function AdminImageManager({
     disabled = false,
     label = "Images",
     placeholder = "Add New Images",
-    entityType = "house"
+    entityType = "house",
+    mainImage = null,
+    onSetMainImage = () => {},
 }: AdminImageManagerProps) {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -41,6 +45,9 @@ export function AdminImageManager({
             fileInputRef.current.value = "";
         }
     };
+
+    // Helper for main image selection
+    const isMainImage = (url: string) => mainImage === url;
 
     return (
         <div className="space-y-4">
@@ -74,12 +81,27 @@ export function AdminImageManager({
                                     height={128}
                                     className="w-32 h-32 object-cover rounded-md shadow-md"
                                 />
+                                {/* Star Button for Main Image */}
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="icon"
+                                    className="absolute top-1 left-1"
+                                    onClick={() => onSetMainImage(imageUrl)}
+                                    disabled={disabled}
+                                    aria-label={isMainImage(imageUrl) ? "Main image" : "Set as main image"}
+                                >
+                                    <Star className="w-5 h-5" color={isMainImage(imageUrl) ? "#facc15" : "#fff"} fill={isMainImage(imageUrl) ? "#facc15" : "none"} />
+                                </Button>
                                 <Button
                                     type="button"
                                     variant="destructive"
                                     size="sm"
                                     className="absolute top-1 right-1"
-                                    onClick={() => onDeleteCurrentImage(imageUrl)}
+                                    onClick={() => {
+                                        onDeleteCurrentImage(imageUrl);
+                                        if (isMainImage(imageUrl)) onSetMainImage(null);
+                                    }}
                                     disabled={disabled}
                                 >
                                     <Trash className="w-4 h-4" />
@@ -91,30 +113,48 @@ export function AdminImageManager({
                         ))}
 
                         {/* New Images */}
-                        {newImages.map((image, index) => (
-                            <div key={`new-${index}`} className="relative">
-                                <Image
-                                    src={URL.createObjectURL(image)}
-                                    alt={`New ${entityType} Image ${index + 1}`}
-                                    width={128}
-                                    height={128}
-                                    className="w-32 h-32 object-cover rounded-md shadow-md"
-                                />
-                                <Button
-                                    type="button"
-                                    variant="destructive"
-                                    size="sm"
-                                    className="absolute top-1 right-1"
-                                    onClick={() => onDeleteNewImage(index)}
-                                    disabled={disabled}
-                                >
-                                    <Trash className="w-4 h-4" />
-                                </Button>
-                                <div className="absolute bottom-1 left-1 bg-green-500 text-white text-xs px-1 rounded">
-                                    New
+                        {newImages.map((image, index) => {
+                            const url = URL.createObjectURL(image);
+                            return (
+                                <div key={`new-${index}`} className="relative">
+                                    <Image
+                                        src={url}
+                                        alt={`New ${entityType} Image ${index + 1}`}
+                                        width={128}
+                                        height={128}
+                                        className="w-32 h-32 object-cover rounded-md shadow-md"
+                                    />
+                                    {/* Star Button for Main Image */}
+                                    <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="icon"
+                                        className="absolute top-1 left-1"
+                                        onClick={() => onSetMainImage(url)}
+                                        disabled={disabled}
+                                        aria-label={isMainImage(url) ? "Main image" : "Set as main image"}
+                                    >
+                                        <Star className="w-5 h-5" color={isMainImage(url) ? "#facc15" : "#fff"} fill={isMainImage(url) ? "#facc15" : "none"} />
+                                    </Button>
+                                    <Button
+                                        type="button"
+                                        variant="destructive"
+                                        size="sm"
+                                        className="absolute top-1 right-1"
+                                        onClick={() => {
+                                            onDeleteNewImage(index);
+                                            if (isMainImage(url)) onSetMainImage(null);
+                                        }}
+                                        disabled={disabled}
+                                    >
+                                        <Trash className="w-4 h-4" />
+                                    </Button>
+                                    <div className="absolute bottom-1 left-1 bg-green-500 text-white text-xs px-1 rounded">
+                                        New
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
             )}
